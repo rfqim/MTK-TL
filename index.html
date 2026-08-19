@@ -1,123 +1,191 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Materi Matematika Interaktif</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Matematika Interaktif</title>
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px -2px rgba(0,0,0,0.08);
+            --radius-lg: 12px;
+            --radius-md: 8px;
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
 
-        body {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 0 20px;
-            color: #333;
-        }
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
 
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-        /* Container Menu Tab */
-        .tab-menu {
-            display: flex;
-            border-bottom: 2px solid #ddd;
-            gap: 5px;
-        }
+        /* Header Section */
+        header {
+            margin-bottom: 24px;
+        }
 
+        header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
 
-        /* Button Tab */
-        .tab-btn {
-            padding: 12px 24px;
-            border: none;
-            background-color: #f1f1f1;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 8px 8px 0 0;
-            transition: background-color 0.2s, color 0.2s;
-        }
+        header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
 
+        /* Segmented Control Tab Bar */
+        .tab-menu {
+            background-color: #f1f5f9;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 5px;
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+        }
 
-        .tab-btn:hover {
-            background-color: #e2e2e2;
-        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
 
+        .tab-btn:hover {
+            color: var(--text-primary);
+        }
 
-        /* Status Tab Aktif */
-        .tab-btn.active {
-            background-color: #007bff;
-            color: white;
-        }
+        .tab-btn.active {
+            background-color: var(--card-bg);
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
 
+        /* Tab Content Card */
+        .tab-content {
+            display: none;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            animation: fadeIn 0.2s ease-in-out;
+        }
 
-        /* Area Konten Tab */
-        .tab-content {
-            display: none;
-            padding: 24px 0;
-        }
+        .tab-content.active {
+            display: block;
+        }
 
+        .tab-content h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
 
-        .tab-content.active {
-            display: block;
-        }
-    </style>
+        .tab-content p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(3px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .tab-menu {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
 
+    <div class="container">
+        <header>
+            <h1>Pembelajaran Matematika Interaktif</h1>
+            <p>Pilih topik di bawah ini untuk memulai kalkulasi dan visualisasi.</p>
+        </header>
 
-    <h1>Pembelajaran Matematika Interaktif</h1>
+        <!-- Menu Navigasi Tab -->
+        <div class="tab-menu">
+            <button class="tab-btn active" onclick="switchTab(event, 'plotting')">Plotting Grafik</button>
+            <button class="tab-btn" onclick="switchTab(event, 'matriks')">Matriks</button>
+            <button class="tab-btn" onclick="switchTab(event, 'trigonometri')">Trigonometri</button>
+        </div>
 
+        <!-- Section 1: Plotting Grafik -->
+        <section id="plotting" class="tab-content active">
+            <h2>Plotting Grafik</h2>
+            <p>Area ini akan digunakan untuk visualisasi grafik fungsi matematika (fungsi linear, kuadrat, dll).</p>
+        </section>
 
-    <!-- Menu Navigasi Tab -->
-    <div class="tab-menu">
-        <button class="tab-btn active" onclick="switchTab(event, 'plotting')">Plotting Grafik</button>
-        <button class="tab-btn" onclick="switchTab(event, 'matriks')">Matriks</button>
-        <button class="tab-btn" onclick="switchTab(event, 'trigonometri')">Trigonometri</button>
-    </div>
+        <!-- Section 2: Matriks -->
+        <section id="matriks" class="tab-content">
+            <h2>Matriks</h2>
+            <p>Area ini akan digunakan untuk kalkulasi dan visualisasi operasi matriks (penjumlahan, perkalian, determinan).</p>
+        </section>
 
+        <!-- Section 3: Trigonometri -->
+        <section id="trigonometri" class="tab-content">
+            <h2>Trigonometri</h2>
+            <p>Area ini akan digunakan untuk kalkulasi nilai sinus, kosinus, tangen, serta identitas trigonometri.</p>
+        </section>
+    </div>
 
-    <!-- Section 1: Plotting Grafik -->
-    <section id="plotting" class="tab-content active">
-        <h2>Plotting Grafik</h2>
-        <p>Area ini akan digunakan untuk visualisasi grafik fungsi matematika (fungsi linear, kuadrat, dll).</p>
-    </section>
+    <script>
+        function switchTab(event, tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
 
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(button => button.classList.remove('active'));
 
-    <!-- Section 2: Matriks -->
-    <section id="matriks" class="tab-content">
-        <h2>Matriks</h2>
-        <p>Area ini akan digunakan untuk kalkulasi dan visualisasi operasi matriks (penjumlahan, perkalian, determinan).</p>
-    </section>
-
-
-    <!-- Section 3: Trigonometri -->
-    <section id="trigonometri" class="tab-content">
-        <h2>Trigonometri</h2>
-        <p>Area ini akan digunakan untuk kalkulasi nilai sinus, kosinus, tangen, serta identitas trigonometri.</p>
-    </section>
-
-
-    <script>
-        function switchTab(event, tabId) {
-            // Sembunyikan semua konten tab
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => content.classList.remove('active'));
-
-
-            // Hapus status 'active' dari semua tombol
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(button => button.classList.remove('active'));
-
-
-            // Tampilkan tab yang dipilih dan beri status active pada tombolnya
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-        }
-    </script>
-
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
 
 </body>
 </html>
-
