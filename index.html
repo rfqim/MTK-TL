@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Matematika Interaktif</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+            color: #333;
+        }
+
+
+        /* Container Menu Tab */
+        .tab-menu {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+            gap: 5px;
+        }
+
+
+        /* Button Tab */
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background-color: #f1f1f1;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+
+        .tab-btn:hover {
+            background-color: #e2e2e2;
+        }
+
+
+        /* Status Tab Aktif */
+        .tab-btn.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+
+        /* Area Konten Tab */
+        .tab-content {
+            display: none;
+            padding: 24px 0;
+        }
+
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+
+    <h1>Pembelajaran Matematika Interaktif</h1>
+
+
+    <!-- Menu Navigasi Tab -->
+    <div class="tab-menu">
+        <button class="tab-btn active" onclick="switchTab(event, 'plotting')">Plotting Grafik</button>
+        <button class="tab-btn" onclick="switchTab(event, 'matriks')">Matriks</button>
+        <button class="tab-btn" onclick="switchTab(event, 'trigonometri')">Trigonometri</button>
+    </div>
+
+
+    <!-- Section 1: Plotting Grafik -->
+    <section id="plotting" class="tab-content active">
+        <h2>Plotting Grafik</h2>
+        <p>Area ini akan digunakan untuk visualisasi grafik fungsi matematika (fungsi linear, kuadrat, dll).</p>
+    </section>
+
+
+    <!-- Section 2: Matriks -->
+    <section id="matriks" class="tab-content">
+        <h2>Matriks</h2>
+        <p>Area ini akan digunakan untuk kalkulasi dan visualisasi operasi matriks (penjumlahan, perkalian, determinan).</p>
+    </section>
+
+
+    <!-- Section 3: Trigonometri -->
+    <section id="trigonometri" class="tab-content">
+        <h2>Trigonometri</h2>
+        <p>Area ini akan digunakan untuk kalkulasi nilai sinus, kosinus, tangen, serta identitas trigonometri.</p>
+    </section>
+
+
+    <script>
+        function switchTab(event, tabId) {
+            // Sembunyikan semua konten tab
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+
+            // Hapus status 'active' dari semua tombol
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(button => button.classList.remove('active'));
+
+
+            // Tampilkan tab yang dipilih dan beri status active pada tombolnya
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+
+
+</body>
+</html>
+
