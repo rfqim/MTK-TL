@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Materi Matematika Interaktif</title>
     <!-- Google Font: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,6 +22,7 @@
             --shadow-md: 0 4px 12px -2px rgba(0,0,0,0.08);
             --radius-lg: 12px;
             --radius-md: 8px;
+            --accent-red: #d93025;
         }
 
         * {
@@ -35,17 +36,17 @@
             background-color: var(--bg-body);
             color: var(--text-primary);
             line-height: 1.6;
-            padding: 40px 20px;
+            padding: 20px 15px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
-        /* Header Section */
         header {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         header h1 {
@@ -101,7 +102,7 @@
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
-            padding: 32px;
+            padding: 24px;
             box-shadow: var(--shadow-md);
             animation: fadeIn 0.2s ease-in-out;
         }
@@ -110,33 +111,194 @@
             display: block;
         }
 
-        .tab-content h2 {
-            font-size: 1.25rem;
+        /* Layout Grid Plotting */
+        .plotting-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .control-full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 0.85rem;
             font-weight: 600;
-            margin-bottom: 8px;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        select, input[type="range"] {
+            width: 100%;
+            font-size: 0.9rem;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background-color: #fff;
             color: var(--text-primary);
         }
 
-        .tab-content p {
+        input[type="range"] {
+            padding: 0;
+            border: none;
+            height: 24px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .num-input {
+            width: 65px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 4px;
+            background-color: #f1f5f9;
+        }
+
+        .num-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: #fff;
+        }
+
+        .formula-display {
+            text-align: center;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary);
+            background: #eff6ff;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            margin-bottom: 15px;
+            border: 1px dashed #bfdbfe;
+            word-break: break-word;
+        }
+
+        /* Canvas Box */
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            touch-action: none;
+            cursor: grab;
+        }
+
+        canvas:active {
+            cursor: grabbing;
+        }
+
+        .zoom-hint {
+            text-align: center;
+            font-size: 0.8rem;
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+
+        /* Tabel Koordinat */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .coord-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            background: #ffffff;
+            font-size: 0.85rem;
+        }
+
+        .coord-table th, .coord-table td {
+            border: 1px solid var(--border-color);
+            padding: 6px 4px;
+            min-width: 40px;
+        }
+
+        .coord-table th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .coord-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .x-input {
+            width: 100%;
+            min-width: 35px;
+            text-align: center;
+            font-size: 0.85rem;
+            padding: 4px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: #f1f5f9;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .x-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: #fff;
+        }
+
+        .x-input::-webkit-outer-spin-button,
+        .x-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .x-input[type=number] {
+            -moz-appearance: textfield;
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(3px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(3px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (max-width: 640px) {
-            .tab-menu {
-                flex-direction: column;
+        /* Desktop Responsive */
+        @media (min-width: 850px) {
+            body { padding: 40px 20px; }
+            .tab-content { padding: 32px; }
+            .plotting-layout {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+                align-items: start;
             }
+            .controls { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -145,10 +307,10 @@
     <div class="container">
         <header>
             <h1>Pembelajaran Matematika Interaktif</h1>
-            <p>Pilih topik di bawah ini untuk memulai kalkulasi dan visualisasi.</p>
+            <p>Eksplorasi konsep matematika secara visual dan kalkulasi real-time.</p>
         </header>
 
-        <!-- Menu Navigasi Tab -->
+        <!-- Tab Controls -->
         <div class="tab-menu">
             <button class="tab-btn active" onclick="switchTab(event, 'plotting')">Plotting Grafik</button>
             <button class="tab-btn" onclick="switchTab(event, 'matriks')">Matriks</button>
@@ -157,24 +319,76 @@
 
         <!-- Section 1: Plotting Grafik -->
         <section id="plotting" class="tab-content active">
-            <h2>Plotting Grafik</h2>
-            <p>Area ini akan digunakan untuk visualisasi grafik fungsi matematika (fungsi linear, kuadrat, dll).</p>
+            <div class="plotting-layout">
+                <!-- PANEL KIRI: KONTROL -->
+                <div class="left-panel">
+                    <div class="controls">
+                        <div class="control-full">
+                            <label for="funcType">Jenis Fungsi:</label>
+                            <select id="funcType">
+                                <option value="linear">Fungsi Linear (y = ax + b)</option>
+                                <option value="quadratic">Fungsi Kuadrat (y = ax² + bx + c)</option>
+                                <option value="rational">Fungsi Rasional (y = a / (x - b)ⁿ + c)</option>
+                                <option value="exponential">Fungsi Eksponensial (y = a^(bx) + c)</option>
+                                <option value="absolute">Fungsi Mutlak (y = a|x - b| + c)</option>
+                                <option value="step-down">Fungsi Lantai (y = a⌊x - b⌋ + c)</option>
+                                <option value="step-up">Fungsi Atap (y = a⌈x - b⌉ + c)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Koefisien a: <input type="number" id="valA" class="num-input" value="1" step="0.1"></label>
+                            <input type="range" id="a" min="-5" max="5" step="0.1" value="1">
+                        </div>
+                        <div>
+                            <label>Koefisien b: <input type="number" id="valB" class="num-input" value="0" step="0.1"></label>
+                            <input type="range" id="b" min="-5" max="5" step="0.1" value="0">
+                        </div>
+                        <div id="cControl" style="display: none;">
+                            <label>Koefisien c: <input type="number" id="valC" class="num-input" value="0" step="0.1"></label>
+                            <input type="range" id="c" min="-5" max="5" step="0.1" value="0">
+                        </div>
+                        <div id="nControl" style="display: none;">
+                            <label>Pangkat n: <input type="number" id="valN" class="num-input" value="1" step="1" min="1"></label>
+                            <input type="range" id="n" min="1" max="5" step="1" value="1">
+                        </div>
+                    </div>
+
+                    <div class="formula-display" id="formula">y = 1x + 0</div>
+
+                    <div class="table-container">
+                        <table class="coord-table" id="pointsTable">
+                            <tr id="rowX"><th>x</th></tr>
+                            <tr id="rowY"><th>y</th></tr>
+                        </table>
+                    </div>
+                    <p style="text-align: center; font-size: 0.75rem; color: var(--text-secondary); margin-top: 6px;">* Masukkan nilai X untuk melihat koordinat titik.</p>
+                </div>
+                
+                <!-- PANEL KANAN: CANVAS -->
+                <div class="right-panel">
+                    <div class="canvas-container">
+                        <canvas id="graphCanvas" width="500" height="500"></canvas>
+                    </div>
+                    <p class="zoom-hint">Geser canvas atau scroll/pinch untuk memperbesar/memperkecil grafik.</p>
+                </div>
+            </div>
         </section>
 
         <!-- Section 2: Matriks -->
         <section id="matriks" class="tab-content">
             <h2>Matriks</h2>
-            <p>Area ini akan digunakan untuk kalkulasi dan visualisasi operasi matriks (penjumlahan, perkalian, determinan).</p>
+            <p style="color: var(--text-secondary);">Area ini akan digunakan untuk kalkulasi dan visualisasi operasi matriks (penjumlahan, perkalian, determinan).</p>
         </section>
 
         <!-- Section 3: Trigonometri -->
         <section id="trigonometri" class="tab-content">
             <h2>Trigonometri</h2>
-            <p>Area ini akan digunakan untuk kalkulasi nilai sinus, kosinus, tangen, serta identitas trigonometri.</p>
+            <p style="color: var(--text-secondary);">Area ini akan digunakan untuk kalkulasi nilai sinus, kosinus, tangen, serta identitas trigonometri.</p>
         </section>
     </div>
 
     <script>
+        // --- MANAJEMEN TAB ---
         function switchTab(event, tabId) {
             const contents = document.querySelectorAll('.tab-content');
             contents.forEach(content => content.classList.remove('active'));
@@ -184,8 +398,346 @@
 
             document.getElementById(tabId).classList.add('active');
             event.currentTarget.classList.add('active');
-        }
-    </script>
 
+            if (tabId === 'plotting') {
+                drawGraph();
+            }
+        }
+
+        // --- PLOTTING GRAFIK ENGINE ---
+        const canvas = document.getElementById('graphCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+
+        let range = 10;
+        let scale;
+        let offsetX = 0;
+        let offsetY = 0;
+        
+        let isDragging = false;
+        let startX = 0;
+        let startY = 0;
+        let initialPinchDistance = null;
+        let initialRange = range;
+
+        const MIN_RANGE = 0.5;
+        const MAX_RANGE = 100;
+
+        const funcType = document.getElementById('funcType');
+        const valA = document.getElementById('valA');
+        const valB = document.getElementById('valB');
+        const valC = document.getElementById('valC');
+        const valN = document.getElementById('valN');
+        
+        const formulaDisplay = document.getElementById('formula');
+        const cControl = document.getElementById('cControl');
+        const nControl = document.getElementById('nControl');
+
+        let xPoints = [-3, -2, -1, 0, 1, 2, 3];
+
+        function syncControl(sliderId, numId) {
+            const slider = document.getElementById(sliderId);
+            const numInput = document.getElementById(numId);
+            
+            slider.addEventListener('input', () => {
+                numInput.value = slider.value;
+                drawGraph();
+            });
+            
+            numInput.addEventListener('input', () => {
+                if (numInput.value !== "") {
+                    slider.value = numInput.value;
+                }
+                drawGraph();
+            });
+        }
+
+        syncControl('a', 'valA');
+        syncControl('b', 'valB');
+        syncControl('c', 'valC');
+        syncControl('n', 'valN');
+
+        funcType.addEventListener('change', drawGraph);
+
+        function initTable() {
+            const rowX = document.getElementById('rowX');
+            const rowY = document.getElementById('rowY');
+
+            rowX.innerHTML = '<th>x</th>';
+            rowY.innerHTML = '<th>y</th>';
+
+            for (let i = 0; i < xPoints.length; i++) {
+                let tdX = document.createElement('td');
+                let inputX = document.createElement('input');
+                inputX.type = 'number';
+                inputX.className = 'x-input';
+                inputX.value = xPoints[i];
+                
+                inputX.addEventListener('input', (e) => {
+                    let val = parseFloat(e.target.value);
+                    xPoints[i] = val;
+                    drawGraph();      
+                });
+
+                tdX.appendChild(inputX);
+                rowX.appendChild(tdX);
+
+                let tdY = document.createElement('td');
+                tdY.id = `yVal${i}`;
+                tdY.textContent = '-';
+                rowY.appendChild(tdY);
+            }
+        }
+
+        function hitungY(x, type, a, b, c, n) {
+            if (type === 'linear') return (a * x) + b;
+            if (type === 'quadratic') return (a * Math.pow(x, 2)) + (b * x) + c;
+            if (type === 'rational') {
+                if (x === b) return 'undf';
+                return (a / Math.pow((x - b), n)) + c;
+            }
+            if (type === 'exponential') return (a ** (b * x)) + c;
+            if (type === 'absolute') return (a * Math.abs(x - b)) + c;
+            if (type === 'step-down') return (a * Math.floor(x - b)) + c;
+            if (type === 'step-up') return (a * Math.ceil(x - b)) + c;
+            return null;
+        }
+
+        function drawAxes() {
+            ctx.strokeStyle = '#e2e8f0'; 
+            ctx.lineWidth = 1;
+            ctx.font = '11px Inter, sans-serif';
+            ctx.fillStyle = '#64748b'; 
+
+            let step = 1;
+            if (range > 50) step = 10;
+            else if (range > 20) step = 5;
+            else if (range > 10) step = 2;
+            else if (range <= 1) step = 0.1;     
+            else if (range <= 2.5) step = 0.25;  
+            else if (range < 5) step = 0.5;
+
+            let centerX = width / 2 + offsetX;
+            let centerY = height / 2 + offsetY;
+
+            let minMathX = (-centerX) / scale;
+            let maxMathX = (width - centerX) / scale;
+            let minMathY = (centerY - height) / scale;
+            let maxMathY = (centerY) / scale;
+
+            let startXGrid = Math.floor(minMathX / step) * step;
+            let endXGrid = Math.ceil(maxMathX / step) * step;
+            let startYGrid = Math.floor(minMathY / step) * step;
+            let endYGrid = Math.ceil(maxMathY / step) * step;
+
+            for (let i = startXGrid; i <= endXGrid; i += step) {
+                let px = centerX + (i * scale);
+                ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, height); ctx.stroke();
+
+                if (Math.abs(i) > 0.0001) {
+                    let labelText = Number(i.toFixed(2));
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'top';
+                    let textY = Math.max(5, Math.min(height - 20, centerY + 5));
+                    ctx.fillText(labelText, px, textY);
+                }
+            }
+
+            for (let i = startYGrid; i <= endYGrid; i += step) {
+                let py = centerY - (i * scale);
+                ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(width, py); ctx.stroke();
+
+                if (Math.abs(i) > 0.0001) {
+                    let labelText = Number(i.toFixed(2));
+                    ctx.textAlign = 'right';
+                    ctx.textBaseline = 'middle';
+                    let textX = Math.max(5, Math.min(width - 5, centerX - 5));
+                    ctx.fillText(labelText, textX, py);
+                }
+            }
+
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'top';
+            ctx.fillText('0', centerX - 5, centerY + 5);
+
+            ctx.strokeStyle = '#0f172a';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.moveTo(centerX, 0); ctx.lineTo(centerX, height); ctx.stroke(); 
+            ctx.beginPath(); ctx.moveTo(0, centerY); ctx.lineTo(width, centerY); ctx.stroke(); 
+        }
+
+        function drawGraph() {
+            scale = width / (range * 2);
+
+            const type = funcType.value;
+            const a = parseFloat(valA.value) || 0;
+            const b = parseFloat(valB.value) || 0;
+            const c = parseFloat(valC.value) || 0;
+            const n = parseInt(valN.value) || 1;
+
+            if (type === 'linear') {
+                cControl.style.display = 'none'; nControl.style.display = 'none';
+                formulaDisplay.innerHTML = `y = ${a}x ${b >= 0 ? '+' : '-'} ${Math.abs(b)}`;
+            } else if (type === 'quadratic') {
+                cControl.style.display = 'block'; nControl.style.display = 'none';
+                formulaDisplay.innerHTML = `y = ${a}x² ${b >= 0 ? '+' : '-'} ${Math.abs(b)}x ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`;
+            } else if (type === 'rational') {
+                cControl.style.display = 'block'; nControl.style.display = 'block'; 
+                formulaDisplay.innerHTML = `y = ${a} / (x ${b >= 0 ? '-' : '+'} ${Math.abs(b)})<sup>${n}</sup> ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`;
+            } else if (type === 'exponential') {
+                cControl.style.display = 'block'; nControl.style.display = 'none';
+                formulaDisplay.innerHTML = `y = ${a}<sup>${b}x</sup> ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`;
+            } else if (type === 'absolute') {
+                cControl.style.display = 'block'; nControl.style.display = 'none';
+                formulaDisplay.innerHTML = `y = ${a}|x ${b >= 0 ? '-' : '+'} ${Math.abs(b)}| ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`;
+            } else if (type === 'step-down') {
+                cControl.style.display = 'block'; nControl.style.display = 'none';
+                formulaDisplay.innerHTML = `y = ${a}⌊x ${b >= 0 ? '-' : '+'} ${Math.abs(b)}⌋ ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`;
+            } else if (type === 'step-up') {
+                cControl.style.display = 'block'; nControl.style.display = 'none';
+                formulaDisplay.innerHTML = `y = ${a}⌈x ${b >= 0 ? '-' : '+'} ${Math.abs(b)}⌉ ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`;
+            }
+
+            ctx.clearRect(0, 0, width, height);
+            drawAxes(); 
+
+            let centerX = width / 2 + offsetX;
+            let centerY = height / 2 + offsetY;
+
+            // Plot Grafik
+            ctx.beginPath();
+            ctx.strokeStyle = '#2563eb'; 
+            ctx.lineWidth = 2.5;
+            let prevY = null;
+            let prevStep = null;
+
+            for (let px = 0; px <= width; px++) {
+                const mathX = (px - centerX) / scale;
+                let mathY = null;
+
+                if (type === 'linear') mathY = a * mathX + b;
+                else if (type === 'quadratic') mathY = a * Math.pow(mathX, 2) + b * mathX + c;
+                else if (type === 'rational') {
+                    if (Math.abs(mathX - b) <= 0.05) { prevY = null; continue; }
+                    mathY = a / Math.pow((mathX - b), n) + c;
+                } else if (type === 'exponential') mathY = (a ** (b * mathX)) + c;
+                else if (type === 'absolute') mathY = a * Math.abs(mathX - b) + c;
+                else if (type === 'step-down' || type === 'step-up') {
+                    let currentStep = (type === 'step-down') ? Math.floor(mathX - b) : Math.ceil(mathX - b);
+                    if (prevStep !== null && currentStep !== prevStep) prevY = null;
+                    prevStep = currentStep;
+                    mathY = a * currentStep + c;
+                }
+
+                if (mathY !== null) {
+                    const py = centerY - (mathY * scale);
+                    if (px === 0 || prevY === null) {
+                        ctx.moveTo(px, py); 
+                    } else {
+                        ctx.lineTo(px, py); 
+                    }
+                    prevY = py;
+                }
+            }
+            ctx.stroke();
+
+            // Plot Titik Merah & Kalkulasi Tabel
+            for (let i = 0; i < xPoints.length; i++) {
+                let x = xPoints[i];
+                let tdY = document.getElementById(`yVal${i}`);
+                if (!tdY) continue;
+                
+                if (isNaN(x)) {
+                    tdY.textContent = '-';
+                    continue;
+                }
+
+                let y = hitungY(x, type, a, b, c, n);
+
+                if (y === 'undf' || isNaN(y)) {
+                    tdY.textContent = 'tak terdefinisi';
+                } else {
+                    tdY.textContent = Number.isInteger(y) ? y : parseFloat(y.toFixed(2));
+
+                    let px = centerX + (x * scale);
+                    let py = centerY - (y * scale);
+
+                    if (px >= 0 && px <= width && py >= 0 && py <= height) {
+                        ctx.beginPath();
+                        ctx.arc(px, py, 5, 0, 2 * Math.PI);
+                        ctx.fillStyle = '#d93025';
+                        ctx.fill();
+                        ctx.strokeStyle = '#ffffff';
+                        ctx.lineWidth = 1.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // --- INTERAKSI PAN & ZOOM CANVAS ---
+        canvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX - offsetX;
+            startY = e.clientY - offsetY;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            offsetX = e.clientX - startX;
+            offsetY = e.clientY - startY;
+            drawGraph();
+        });
+
+        window.addEventListener('mouseup', () => { isDragging = false; });
+
+        canvas.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                isDragging = true;
+                startX = e.touches[0].clientX - offsetX;
+                startY = e.touches[0].clientY - offsetY;
+            } else if (e.touches.length === 2) {
+                isDragging = false;
+                initialPinchDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                initialRange = range;
+            }
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            if (isDragging && e.touches.length === 1) {
+                offsetX = e.touches[0].clientX - startX;
+                offsetY = e.touches[0].clientY - startY;
+                drawGraph();
+            } else if (e.touches.length === 2 && initialPinchDistance) {
+                const currentDist = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                const factor = initialPinchDistance / currentDist;
+                range = Math.max(MIN_RANGE, Math.min(MAX_RANGE, initialRange * factor));
+                drawGraph();
+            }
+        });
+
+        canvas.addEventListener('touchend', () => {
+            isDragging = false;
+            initialPinchDistance = null;
+        });
+
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const zoomFactor = e.deltaY > 0 ? 1.1 : 0.9;
+            range = Math.max(MIN_RANGE, Math.min(MAX_RANGE, range * zoomFactor));
+            drawGraph();
+        }, { passive: false });
+
+        // Inisialisasi awal
+        initTable();
+        drawGraph();
+    </script>
 </body>
 </html>
