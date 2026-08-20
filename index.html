@@ -23,6 +23,7 @@
             --radius-lg: 12px;
             --radius-md: 8px;
             --accent-red: #d93025;
+            --bg-muted: #f1f5f9;
         }
 
         * {
@@ -64,7 +65,7 @@
 
         /* Segmented Control Tab Bar */
         .tab-menu {
-            background-color: #f1f5f9;
+            background-color: var(--bg-muted);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
             padding: 5px;
@@ -166,7 +167,7 @@
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
             padding: 4px;
-            background-color: #f1f5f9;
+            background-color: var(--bg-muted);
         }
 
         .num-input:focus {
@@ -251,7 +252,7 @@
         }
 
         .coord-table tr:nth-child(even) {
-            background-color: #f8fafc;
+            background-color: var(--bg-body);
         }
 
         .x-input {
@@ -262,7 +263,7 @@
             padding: 4px;
             border: 1px solid var(--border-color);
             border-radius: 4px;
-            background-color: #f1f5f9;
+            background-color: var(--bg-muted);
             color: var(--primary);
             font-weight: bold;
         }
@@ -273,40 +274,131 @@
             background-color: #fff;
         }
 
-        /* Matriks CSS Khusus */
+        /* --- Matriks Custom CSS --- */
+        .op-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .op-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-secondary);
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .op-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .op-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .dim-settings {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            background: var(--bg-muted);
+            padding: 15px;
+            border-radius: var(--radius-md);
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .dim-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .dim-input {
+            width: 50px;
+            padding: 6px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .dim-input:disabled {
+            background: #e2e8f0;
+            color: var(--text-secondary);
+            cursor: not-allowed;
+        }
+
         .matrix-ui-container {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 20px;
             margin-bottom: 20px;
+        }
+
+        .matrix-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
         }
 
         .matrix-grid {
             display: grid;
             gap: 6px;
-            background: #f1f5f9;
+            background: var(--bg-muted);
             padding: 12px;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-color);
         }
 
-        .matrix-grid.dim-2 { grid-template-columns: repeat(2, 1fr); }
-        .matrix-grid.dim-3 { grid-template-columns: repeat(3, 1fr); }
+        .matrix-cell {
+            width: 55px;
+            height: 40px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        .matrix-cell:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
 
         .btn-hitung {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background: var(--primary);
             color: white;
             border: none;
             border-radius: var(--radius-md);
             font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
             transition: 0.2s;
             margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
         }
 
         .btn-hitung:hover {
@@ -314,7 +406,7 @@
         }
 
         .result-box {
-            min-height: 60px;
+            min-height: 80px;
             padding: 20px;
             background: #eff6ff;
             border: 1px dashed var(--primary);
@@ -324,6 +416,7 @@
             justify-content: center;
             font-weight: 600;
             color: var(--primary);
+            overflow-x: auto;
         }
 
         @keyframes fadeIn {
@@ -331,7 +424,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Desktop Responsive */
         @media (min-width: 850px) {
             body { padding: 40px 20px; }
             .tab-content { padding: 32px; }
@@ -360,8 +452,9 @@
             <button class="tab-btn" onclick="switchTab(event, 'trigonometri')">Trigonometri</button>
         </div>
 
-        <!-- Section 1: Plotting Grafik (Tetap sesuai aslinya) -->
+        <!-- Section 1: Plotting Grafik -->
         <section id="plotting" class="tab-content active">
+            <!-- (Isi persis sama dengan kode asli Anda) -->
             <div class="plotting-layout">
                 <div class="left-panel">
                     <div class="controls">
@@ -415,38 +508,48 @@
             </div>
         </section>
 
-        <!-- Section 2: Matriks (Baru Ditambahkan) -->
+        <!-- Section 2: Matriks (Diperbarui dengan Dimensi Kustom & Tombol) -->
         <section id="matriks" class="tab-content">
-            <h2>Kalkulator Matriks</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 20px;">Pilih operasi matriks dan masukkan nilai pada sel-sel di bawah ini.</p>
+            <h2>Kalkulator Matriks Dinamis</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">Pilih operasi, atur dimensi (baris x kolom), dan masukkan nilai matriks.</p>
             
-            <div class="control-full" style="margin-bottom: 20px;">
-                <label for="matrixOp">Operasi Matriks:</label>
-                <select id="matrixOp" onchange="updateMatrixUI()">
-                    <option value="add_2x2">Penjumlahan (2x2)</option>
-                    <option value="sub_2x2">Pengurangan (2x2)</option>
-                    <option value="mul_2x2">Perkalian (2x2)</option>
-                    <option value="det_2x2">Determinan (2x2)</option>
-                    <option value="inv_2x2">Invers (2x2)</option>
-                    <option value="det_3x3">Determinan (3x3)</option>
-                    <option value="inv_3x3">Invers (3x3)</option>
-                </select>
+            <!-- Tombol Operasi -->
+            <div class="op-buttons" id="opButtons">
+                <button class="op-btn active" onclick="setOperation('add')">Penjumlahan</button>
+                <button class="op-btn" onclick="setOperation('sub')">Pengurangan</button>
+                <button class="op-btn" onclick="setOperation('mul')">Perkalian</button>
+                <button class="op-btn" onclick="setOperation('det')">Determinan</button>
+                <button class="op-btn" onclick="setOperation('inv')">Invers</button>
             </div>
 
+            <!-- Pengaturan Dimensi -->
+            <div class="dim-settings">
+                <div class="dim-group">
+                    <span>Matriks A :</span>
+                    <input type="number" id="rowsA" class="dim-input" value="2" min="1" max="6" onchange="updateDimensions()">
+                    <span>×</span>
+                    <input type="number" id="colsA" class="dim-input" value="2" min="1" max="6" onchange="updateDimensions()">
+                </div>
+                <div class="dim-group" id="dimBGroup">
+                    <span>Matriks B :</span>
+                    <input type="number" id="rowsB" class="dim-input" value="2" min="1" max="6" onchange="updateDimensions()">
+                    <span>×</span>
+                    <input type="number" id="colsB" class="dim-input" value="2" min="1" max="6" onchange="updateDimensions()">
+                </div>
+            </div>
+
+            <!-- Area Matriks -->
             <div class="matrix-ui-container">
-                <!-- Matriks A -->
-                <div>
-                    <p style="text-align: center; font-weight: bold; margin-bottom: 5px;">Matriks A</p>
-                    <div id="matrixA" class="matrix-grid dim-2"></div>
+                <div class="matrix-wrapper">
+                    <p style="font-weight: bold; margin-bottom: 5px;">Matriks A</p>
+                    <div id="gridA" class="matrix-grid"></div>
                 </div>
                 
-                <!-- Operator Sign (+, -, x) -->
                 <div id="operatorSign" style="font-size: 2rem; font-weight: bold; color: var(--text-secondary);">+</div>
                 
-                <!-- Matriks B (Disembunyikan jika mode Determinan/Invers) -->
-                <div id="containerB">
-                    <p style="text-align: center; font-weight: bold; margin-bottom: 5px;">Matriks B</p>
-                    <div id="matrixB" class="matrix-grid dim-2"></div>
+                <div class="matrix-wrapper" id="wrapperB">
+                    <p style="font-weight: bold; margin-bottom: 5px;">Matriks B</p>
+                    <div id="gridB" class="matrix-grid"></div>
                 </div>
             </div>
 
@@ -460,7 +563,7 @@
             </div>
         </section>
 
-        <!-- Section 3: Trigonometri (Tetap sesuai aslinya) -->
+        <!-- Section 3: Trigonometri -->
         <section id="trigonometri" class="tab-content">
             <h2>Trigonometri</h2>
             <p style="color: var(--text-secondary);">Area ini akan digunakan untuk kalkulasi nilai sinus, kosinus, tangen, serta identitas trigonometri.</p>
@@ -472,171 +575,270 @@
         function switchTab(event, tabId) {
             const contents = document.querySelectorAll('.tab-content');
             contents.forEach(content => content.classList.remove('active'));
-
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(button => button.classList.remove('active'));
 
             document.getElementById(tabId).classList.add('active');
             event.currentTarget.classList.add('active');
 
-            if (tabId === 'plotting') {
-                drawGraph();
+            if (tabId === 'plotting') drawGraph();
+        }
+
+        // ==========================================
+        // --- SISTEM MATRIKS (DIMENSI KUSTOM) ---
+        // ==========================================
+        let currentOp = 'add';
+
+        // 1. Mengubah Mode Operasi
+        function setOperation(op) {
+            currentOp = op;
+            
+            // Ubah tampilan tombol aktif
+            document.querySelectorAll('.op-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const opSign = document.getElementById('operatorSign');
+            const dimBGroup = document.getElementById('dimBGroup');
+            const wrapperB = document.getElementById('wrapperB');
+
+            if (op === 'det' || op === 'inv') {
+                opSign.style.display = 'none';
+                dimBGroup.style.display = 'none';
+                wrapperB.style.display = 'none';
+            } else {
+                opSign.style.display = 'block';
+                dimBGroup.style.display = 'flex';
+                wrapperB.style.display = 'flex';
+                if (op === 'add') opSign.textContent = '+';
+                if (op === 'sub') opSign.textContent = '−';
+                if (op === 'mul') opSign.textContent = '×';
+            }
+
+            document.getElementById('matrixResult').innerHTML = '<span style="color: var(--text-secondary); font-weight: normal;">Hasil komputasi akan muncul di sini.</span>';
+            updateDimensions();
+        }
+
+        // 2. Memperbarui dan Memvalidasi Dimensi Baris/Kolom
+        function updateDimensions() {
+            let rA = parseInt(document.getElementById('rowsA').value) || 1;
+            let cA = parseInt(document.getElementById('colsA').value) || 1;
+            let rB = parseInt(document.getElementById('rowsB').value) || 1;
+            let cB = parseInt(document.getElementById('colsB').value) || 1;
+
+            const inputRowsB = document.getElementById('rowsB');
+            const inputColsB = document.getElementById('colsB');
+            const inputColsA = document.getElementById('colsA');
+
+            // Reset disable states
+            inputRowsB.disabled = false;
+            inputColsB.disabled = false;
+            inputColsA.disabled = false;
+
+            // Aturan Validasi Dimensi
+            if (currentOp === 'add' || currentOp === 'sub') {
+                // Syarat: Ordo harus sama persis
+                rB = rA; 
+                cB = cA;
+                inputRowsB.value = rB; inputRowsB.disabled = true;
+                inputColsB.value = cB; inputColsB.disabled = true;
+            } 
+            else if (currentOp === 'mul') {
+                // Syarat: Kolom A = Baris B
+                rB = cA;
+                inputRowsB.value = rB; inputRowsB.disabled = true;
+            } 
+            else if (currentOp === 'det' || currentOp === 'inv') {
+                // Syarat: Matriks harus persegi (Baris = Kolom)
+                cA = rA;
+                inputColsA.value = cA; inputColsA.disabled = true;
+            }
+
+            renderGrid('gridA', rA, cA);
+            if (currentOp !== 'det' && currentOp !== 'inv') {
+                renderGrid('gridB', rB, cB);
             }
         }
 
-        // --- SISTEM MATRIKS (Logika Baru) ---
-        // Membuat grid input matriks secara dinamis
-        function renderMatrixInputs(containerId, dim) {
+        // 3. Me-render (Menggambar) Kotak Input Matriks HTML
+        function renderGrid(containerId, rows, cols) {
             const container = document.getElementById(containerId);
-            container.className = `matrix-grid dim-${dim}`;
-            container.innerHTML = '';
+            container.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
             
-            for (let i = 0; i < dim; i++) {
-                for (let j = 0; j < dim; j++) {
+            // Simpan nilai lama jika ada, agar tidak hilang saat dimensi diubah
+            let oldValues = [];
+            container.querySelectorAll('input').forEach(input => {
+                let idParts = input.id.split('_');
+                let r = parseInt(idParts[1]), c = parseInt(idParts[2]);
+                if (!oldValues[r]) oldValues[r] = [];
+                oldValues[r][c] = input.value;
+            });
+
+            container.innerHTML = '';
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
                     const input = document.createElement('input');
                     input.type = 'number';
-                    input.className = 'num-input';
+                    input.className = 'matrix-cell';
                     input.id = `${containerId}_${i}_${j}`;
-                    input.value = (i === j) ? 1 : 0; // Default isi matriks (matriks identitas)
+                    // Nilai default: Ambil nilai lama, atau isi 0
+                    input.value = (oldValues[i] && oldValues[i][j] !== undefined) ? oldValues[i][j] : 0;
                     container.appendChild(input);
                 }
             }
         }
 
-        // Update UI (Menampilkan/menyembunyikan Matriks B sesuai operasi)
-        function updateMatrixUI() {
-            const op = document.getElementById('matrixOp').value;
-            const containerB = document.getElementById('containerB');
-            const operatorSign = document.getElementById('operatorSign');
-            
-            const isSingleMatrix = op.includes('det') || op.includes('inv');
-            const is3x3 = op.includes('3x3');
-            const dim = is3x3 ? 3 : 2;
-
-            renderMatrixInputs('matrixA', dim);
-            
-            if (isSingleMatrix) {
-                containerB.style.display = 'none';
-                operatorSign.style.display = 'none';
-            } else {
-                containerB.style.display = 'block';
-                operatorSign.style.display = 'block';
-                renderMatrixInputs('matrixB', dim);
-                
-                if (op.includes('add')) operatorSign.textContent = '+';
-                else if (op.includes('sub')) operatorSign.textContent = '−';
-                else if (op.includes('mul')) operatorSign.textContent = '×';
-            }
-            
-            // Reset result
-            document.getElementById('matrixResult').innerHTML = '<span style="color: var(--text-secondary); font-weight: normal;">Hasil komputasi akan muncul di sini.</span>';
-        }
-
-        // Mengambil data matriks dari UI ke bentuk Array 2D
-        function getMatrixData(containerId, dim) {
+        // 4. Mengambil Nilai dari Grid ke dalam bentuk Array 2D JavaScript
+        function getMatrix(containerId, rows, cols) {
             let mat = [];
-            for (let i = 0; i < dim; i++) {
+            for (let i = 0; i < rows; i++) {
                 let row = [];
-                for (let j = 0; j < dim; j++) {
-                    let val = parseFloat(document.getElementById(`${containerId}_${i}_${j}`).value) || 0;
-                    row.push(val);
+                for (let j = 0; j < cols; j++) {
+                    row.push(parseFloat(document.getElementById(`${containerId}_${i}_${j}`).value) || 0);
                 }
                 mat.push(row);
             }
             return mat;
         }
 
-        // Menampilkan array 2D ke dalam HTML grid
-        function displayResultMatrix(mat) {
-            const dim = mat.length;
-            let html = `<div class="matrix-grid dim-${dim}" style="background: transparent; border: none; gap: 10px;">`;
-            for (let i = 0; i < dim; i++) {
-                for (let j = 0; j < dim; j++) {
-                    // Bulatkan ke 2 desimal jika nilainya bukan bilangan bulat
-                    let val = Number.isInteger(mat[i][j]) ? mat[i][j] : mat[i][j].toFixed(2);
-                    html += `<div style="background: white; border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; text-align: center; font-weight: bold;">${val}</div>`;
+        // 5. Menampilkan Array 2D Hasil ke HTML
+        function printResult(mat) {
+            const rows = mat.length;
+            const cols = mat[0].length;
+            let html = `<div class="matrix-grid" style="grid-template-columns: repeat(${cols}, 1fr); background: transparent; border: none;">`;
+            
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    // Cek jika nilainya mendekati 0 karena masalah presisi floating point JS (misal 1e-16)
+                    let val = Math.abs(mat[i][j]) < 1e-10 ? 0 : mat[i][j];
+                    let displayVal = Number.isInteger(val) ? val : parseFloat(val.toFixed(3));
+                    html += `<div style="background: white; border: 1px solid var(--border-color); padding: 10px 15px; border-radius: 6px; text-align: center; font-weight: bold; min-width: 50px;">${displayVal}</div>`;
                 }
             }
             html += `</div>`;
             document.getElementById('matrixResult').innerHTML = html;
         }
 
-        // Kalkulasi Matriks Utama
-        function calculateMatrix() {
-            const op = document.getElementById('matrixOp').value;
-            const dim = op.includes('3x3') ? 3 : 2;
-            const A = getMatrixData('matrixA', dim);
-            const resBox = document.getElementById('matrixResult');
-            let res;
+        function printMessage(msg, isError = false) {
+            const color = isError ? 'var(--accent-red)' : 'var(--text-primary)';
+            document.getElementById('matrixResult').innerHTML = `<span style="color: ${color}; font-size: 1.2rem; text-align: center;">${msg}</span>`;
+        }
 
-            try {
-                if (op === 'add_2x2' || op === 'sub_2x2') {
-                    const B = getMatrixData('matrixB', dim);
-                    res = [[0,0],[0,0]];
-                    for(let i=0; i<2; i++) {
-                        for(let j=0; j<2; j++) {
-                            res[i][j] = op === 'add_2x2' ? A[i][j] + B[i][j] : A[i][j] - B[i][j];
+        // --- ALGORITMA MATEMATIKA ---
+        function getDeterminant(M) {
+            let n = M.length;
+            if (n === 1) return M[0][0];
+            if (n === 2) return (M[0][0]*M[1][1]) - (M[0][1]*M[1][0]);
+            let det = 0;
+            for (let i = 0; i < n; i++) {
+                // Membuat submatriks dengan menghapus baris 0 dan kolom i
+                let subMatrix = M.slice(1).map(row => row.filter((_, j) => j !== i));
+                det += M[0][i] * Math.pow(-1, i) * getDeterminant(subMatrix);
+            }
+            return det;
+        }
+
+        function getInverse(M) {
+            let n = M.length;
+            let I = [];
+            let C = [];
+            
+            // Membuat matriks Identitas (I) dan menyalin Matriks awal (C)
+            for (let i = 0; i < n; i++) {
+                I[i] = []; C[i] = [];
+                for (let j = 0; j < n; j++) {
+                    I[i][j] = (i === j) ? 1 : 0;
+                    C[i][j] = M[i][j];
+                }
+            }
+            
+            // Eliminasi Gauss-Jordan
+            for (let i = 0; i < n; i++) {
+                let e = C[i][i];
+                if (Math.abs(e) < 1e-10) { // Mencari baris pengganti jika elemen diagonal = 0
+                    let swapRow = -1;
+                    for (let k = i + 1; k < n; k++) {
+                        if (Math.abs(C[k][i]) > 1e-10) { swapRow = k; break; }
+                    }
+                    if (swapRow === -1) return null; // Singular
+                    let tempC = C[i]; C[i] = C[swapRow]; C[swapRow] = tempC;
+                    let tempI = I[i]; I[i] = I[swapRow]; I[swapRow] = tempI;
+                    e = C[i][i];
+                }
+                for (let j = 0; j < n; j++) {
+                    C[i][j] /= e; I[i][j] /= e;
+                }
+                for (let k = 0; k < n; k++) {
+                    if (k !== i) {
+                        let factor = C[k][i];
+                        for (let j = 0; j < n; j++) {
+                            C[k][j] -= factor * C[i][j];
+                            I[k][j] -= factor * I[i][j];
                         }
                     }
-                    displayResultMatrix(res);
-                } 
-                else if (op === 'mul_2x2') {
-                    const B = getMatrixData('matrixB', dim);
-                    res = [[0,0],[0,0]];
-                    res[0][0] = (A[0][0]*B[0][0]) + (A[0][1]*B[1][0]);
-                    res[0][1] = (A[0][0]*B[0][1]) + (A[0][1]*B[1][1]);
-                    res[1][0] = (A[1][0]*B[0][0]) + (A[1][1]*B[1][0]);
-                    res[1][1] = (A[1][0]*B[0][1]) + (A[1][1]*B[1][1]);
-                    displayResultMatrix(res);
                 }
-                else if (op === 'det_2x2') {
-                    const det = (A[0][0] * A[1][1]) - (A[0][1] * A[1][0]);
-                    resBox.innerHTML = `<span style="font-size: 1.5rem;">Determinan = <strong>${det}</strong></span>`;
-                }
-                else if (op === 'inv_2x2') {
-                    const det = (A[0][0] * A[1][1]) - (A[0][1] * A[1][0]);
-                    if (det === 0) {
-                        resBox.innerHTML = `<span style="color: var(--accent-red);">Matriks singular (Determinan = 0). Tidak memiliki invers.</span>`;
-                    } else {
-                        res = [
-                            [A[1][1]/det, -A[0][1]/det],
-                            [-A[1][0]/det, A[0][0]/det]
-                        ];
-                        displayResultMatrix(res);
+            }
+            return I;
+        }
+
+        // 6. Eksekusi Utama saat Tombol "Hitung Hasil" diklik
+        function calculateMatrix() {
+            let rA = parseInt(document.getElementById('rowsA').value);
+            let cA = parseInt(document.getElementById('colsA').value);
+            let A = getMatrix('gridA', rA, cA);
+
+            try {
+                if (currentOp === 'add' || currentOp === 'sub') {
+                    let rB = parseInt(document.getElementById('rowsB').value);
+                    let cB = parseInt(document.getElementById('colsB').value);
+                    let B = getMatrix('gridB', rB, cB);
+                    let res = [];
+                    for(let i=0; i<rA; i++) {
+                        res[i] = [];
+                        for(let j=0; j<cA; j++) {
+                            res[i][j] = currentOp === 'add' ? A[i][j] + B[i][j] : A[i][j] - B[i][j];
+                        }
                     }
+                    printResult(res);
+                } 
+                else if (currentOp === 'mul') {
+                    let rB = parseInt(document.getElementById('rowsB').value);
+                    let cB = parseInt(document.getElementById('colsB').value);
+                    let B = getMatrix('gridB', rB, cB);
+                    let res = [];
+                    for(let i=0; i<rA; i++) {
+                        res[i] = [];
+                        for(let j=0; j<cB; j++) {
+                            let sum = 0;
+                            for(let k=0; k<cA; k++) sum += A[i][k] * B[k][j];
+                            res[i][j] = sum;
+                        }
+                    }
+                    printResult(res);
                 }
-                else if (op === 'det_3x3') {
-                    const det = A[0][0]*(A[1][1]*A[2][2] - A[1][2]*A[2][1]) 
-                              - A[0][1]*(A[1][0]*A[2][2] - A[1][2]*A[2][0]) 
-                              + A[0][2]*(A[1][0]*A[2][1] - A[1][1]*A[2][0]);
-                    resBox.innerHTML = `<span style="font-size: 1.5rem;">Determinan = <strong>${det}</strong></span>`;
+                else if (currentOp === 'det') {
+                    let det = getDeterminant(A);
+                    let displayDet = Number.isInteger(det) ? det : parseFloat(det.toFixed(4));
+                    printMessage(`Determinan = <strong>${displayDet}</strong>`);
                 }
-                else if (op === 'inv_3x3') {
-                    const det = A[0][0]*(A[1][1]*A[2][2] - A[1][2]*A[2][1]) - A[0][1]*(A[1][0]*A[2][2] - A[1][2]*A[2][0]) + A[0][2]*(A[1][0]*A[2][1] - A[1][1]*A[2][0]);
-                    if (det === 0) {
-                        resBox.innerHTML = `<span style="color: var(--accent-red);">Matriks singular (Determinan = 0). Tidak memiliki invers.</span>`;
+                else if (currentOp === 'inv') {
+                    let inv = getInverse(A);
+                    if (!inv) {
+                        printMessage("⚠️ Matriks Singular. Determinan = 0 sehingga tidak memiliki invers.", true);
                     } else {
-                        // Menggunakan matriks Adjoin / Kofaktor
-                        res = [
-                            [(A[1][1]*A[2][2] - A[1][2]*A[2][1])/det, -(A[0][1]*A[2][2] - A[0][2]*A[2][1])/det, (A[0][1]*A[1][2] - A[0][2]*A[1][1])/det],
-                            [-(A[1][0]*A[2][2] - A[1][2]*A[2][0])/det, (A[0][0]*A[2][2] - A[0][2]*A[2][0])/det, -(A[0][0]*A[1][2] - A[0][2]*A[1][0])/det],
-                            [(A[1][0]*A[2][1] - A[1][1]*A[2][0])/det, -(A[0][0]*A[2][1] - A[0][1]*A[2][0])/det, (A[0][0]*A[1][1] - A[0][1]*A[1][0])/det]
-                        ];
-                        displayResultMatrix(res);
+                        printResult(inv);
                     }
                 }
             } catch (error) {
-                resBox.innerHTML = `<span style="color: var(--accent-red);">Terjadi kesalahan dalam perhitungan.</span>`;
+                printMessage("Terjadi kesalahan komputasi.", true);
             }
         }
 
-        // Inisialisasi awal matriks UI
-        updateMatrixUI();
+        // Inisialisasi awal saat halaman dimuat
+        updateDimensions();
 
-
-        // =======================================================
-        // --- PLOTTING GRAFIK ENGINE (Tetap Sesuai Aslinya) ---
-        // =======================================================
+        // ==========================================
+        // --- PLOTTING GRAFIK (Tetap Sesuai Asli) ---
+        // ==========================================
         const canvas = document.getElementById('graphCanvas');
         const ctx = canvas.getContext('2d');
         const width = canvas.width;
@@ -689,7 +891,6 @@
         syncControl('b', 'valB');
         syncControl('c', 'valC');
         syncControl('n', 'valN');
-
         funcType.addEventListener('change', drawGraph);
 
         function initTable() {
@@ -766,42 +967,31 @@
             for (let i = startXGrid; i <= endXGrid; i += step) {
                 let px = centerX + (i * scale);
                 ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, height); ctx.stroke();
-
                 if (Math.abs(i) > 0.0001) {
-                    let labelText = Number(i.toFixed(2));
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'top';
-                    let textY = Math.max(5, Math.min(height - 20, centerY + 5));
-                    ctx.fillText(labelText, px, textY);
+                    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+                    ctx.fillText(Number(i.toFixed(2)), px, Math.max(5, Math.min(height - 20, centerY + 5)));
                 }
             }
 
             for (let i = startYGrid; i <= endYGrid; i += step) {
                 let py = centerY - (i * scale);
                 ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(width, py); ctx.stroke();
-
                 if (Math.abs(i) > 0.0001) {
-                    let labelText = Number(i.toFixed(2));
-                    ctx.textAlign = 'right';
-                    ctx.textBaseline = 'middle';
-                    let textX = Math.max(5, Math.min(width - 5, centerX - 5));
-                    ctx.fillText(labelText, textX, py);
+                    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+                    ctx.fillText(Number(i.toFixed(2)), Math.max(5, Math.min(width - 5, centerX - 5)), py);
                 }
             }
 
-            ctx.textAlign = 'right';
-            ctx.textBaseline = 'top';
+            ctx.textAlign = 'right'; ctx.textBaseline = 'top';
             ctx.fillText('0', centerX - 5, centerY + 5);
 
-            ctx.strokeStyle = '#0f172a';
-            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = '#0f172a'; ctx.lineWidth = 1.5;
             ctx.beginPath(); ctx.moveTo(centerX, 0); ctx.lineTo(centerX, height); ctx.stroke(); 
             ctx.beginPath(); ctx.moveTo(0, centerY); ctx.lineTo(width, centerY); ctx.stroke(); 
         }
 
         function drawGraph() {
             scale = width / (range * 2);
-
             const type = funcType.value;
             const a = parseFloat(valA.value) || 0;
             const b = parseFloat(valB.value) || 0;
@@ -837,12 +1027,8 @@
             let centerX = width / 2 + offsetX;
             let centerY = height / 2 + offsetY;
 
-            // Plot Grafik
-            ctx.beginPath();
-            ctx.strokeStyle = '#2563eb'; 
-            ctx.lineWidth = 2.5;
-            let prevY = null;
-            let prevStep = null;
+            ctx.beginPath(); ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5;
+            let prevY = null; let prevStep = null;
 
             for (let px = 0; px <= width; px++) {
                 const mathX = (px - centerX) / scale;
@@ -864,112 +1050,67 @@
 
                 if (mathY !== null) {
                     const py = centerY - (mathY * scale);
-                    if (px === 0 || prevY === null) {
-                        ctx.moveTo(px, py); 
-                    } else {
-                        ctx.lineTo(px, py); 
-                    }
+                    if (px === 0 || prevY === null) ctx.moveTo(px, py); 
+                    else ctx.lineTo(px, py); 
                     prevY = py;
                 }
             }
             ctx.stroke();
 
-            // Plot Titik Merah & Kalkulasi Tabel
             for (let i = 0; i < xPoints.length; i++) {
                 let x = xPoints[i];
                 let tdY = document.getElementById(`yVal${i}`);
                 if (!tdY) continue;
                 
-                if (isNaN(x)) {
-                    tdY.textContent = '-';
-                    continue;
-                }
-
+                if (isNaN(x)) { tdY.textContent = '-'; continue; }
                 let y = hitungY(x, type, a, b, c, n);
 
                 if (y === 'undf' || isNaN(y)) {
                     tdY.textContent = 'tak terdefinisi';
                 } else {
                     tdY.textContent = Number.isInteger(y) ? y : parseFloat(y.toFixed(2));
-
                     let px = centerX + (x * scale);
                     let py = centerY - (y * scale);
-
                     if (px >= 0 && px <= width && py >= 0 && py <= height) {
-                        ctx.beginPath();
-                        ctx.arc(px, py, 5, 0, 2 * Math.PI);
-                        ctx.fillStyle = '#d93025';
-                        ctx.fill();
-                        ctx.strokeStyle = '#ffffff';
-                        ctx.lineWidth = 1.5;
-                        ctx.stroke();
+                        ctx.beginPath(); ctx.arc(px, py, 5, 0, 2 * Math.PI);
+                        ctx.fillStyle = '#d93025'; ctx.fill();
+                        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke();
                     }
                 }
             }
         }
 
-        // --- INTERAKSI PAN & ZOOM CANVAS ---
+        // --- INTERAKSI KANVAS ---
         canvas.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            startX = e.clientX - offsetX;
-            startY = e.clientY - offsetY;
+            isDragging = true; startX = e.clientX - offsetX; startY = e.clientY - offsetY;
         });
-
         window.addEventListener('mousemove', (e) => {
             if (!isDragging) return;
-            offsetX = e.clientX - startX;
-            offsetY = e.clientY - startY;
-            drawGraph();
+            offsetX = e.clientX - startX; offsetY = e.clientY - startY; drawGraph();
         });
-
         window.addEventListener('mouseup', () => { isDragging = false; });
-
         canvas.addEventListener('touchstart', (e) => {
             if (e.touches.length === 1) {
-                isDragging = true;
-                startX = e.touches[0].clientX - offsetX;
-                startY = e.touches[0].clientY - offsetY;
+                isDragging = true; startX = e.touches[0].clientX - offsetX; startY = e.touches[0].clientY - offsetY;
             } else if (e.touches.length === 2) {
-                isDragging = false;
-                initialPinchDistance = Math.hypot(
-                    e.touches[0].clientX - e.touches[1].clientX,
-                    e.touches[0].clientY - e.touches[1].clientY
-                );
-                initialRange = range;
+                isDragging = false; initialPinchDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY); initialRange = range;
             }
         });
-
         canvas.addEventListener('touchmove', (e) => {
             if (isDragging && e.touches.length === 1) {
-                offsetX = e.touches[0].clientX - startX;
-                offsetY = e.touches[0].clientY - startY;
-                drawGraph();
+                offsetX = e.touches[0].clientX - startX; offsetY = e.touches[0].clientY - startY; drawGraph();
             } else if (e.touches.length === 2 && initialPinchDistance) {
-                const currentDist = Math.hypot(
-                    e.touches[0].clientX - e.touches[1].clientX,
-                    e.touches[0].clientY - e.touches[1].clientY
-                );
-                const factor = initialPinchDistance / currentDist;
-                range = Math.max(MIN_RANGE, Math.min(MAX_RANGE, initialRange * factor));
-                drawGraph();
+                const factor = initialPinchDistance / Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                range = Math.max(MIN_RANGE, Math.min(MAX_RANGE, initialRange * factor)); drawGraph();
             }
         });
-
-        canvas.addEventListener('touchend', () => {
-            isDragging = false;
-            initialPinchDistance = null;
-        });
-
+        canvas.addEventListener('touchend', () => { isDragging = false; initialPinchDistance = null; });
         canvas.addEventListener('wheel', (e) => {
             e.preventDefault();
-            const zoomFactor = e.deltaY > 0 ? 1.1 : 0.9;
-            range = Math.max(MIN_RANGE, Math.min(MAX_RANGE, range * zoomFactor));
-            drawGraph();
+            range = Math.max(MIN_RANGE, Math.min(MAX_RANGE, range * (e.deltaY > 0 ? 1.1 : 0.9))); drawGraph();
         }, { passive: false });
 
-        // Inisialisasi awal
-        initTable();
-        drawGraph();
+        initTable(); drawGraph();
     </script>
 </body>
 </html>
