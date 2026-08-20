@@ -595,7 +595,8 @@
             
             // Ubah tampilan tombol aktif
             document.querySelectorAll('.op-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            // Gunakan event.currentTarget agar aman dari klik pada elemen anak (jika ada)
+            if(event) event.currentTarget.classList.add('active');
 
             const opSign = document.getElementById('operatorSign');
             const dimBGroup = document.getElementById('dimBGroup');
@@ -614,8 +615,11 @@
                 if (op === 'mul') opSign.textContent = '×';
             }
 
-            document.getElementById('matrixResult').innerHTML = '<span style="color: var(--text-secondary); font-weight: normal;">Hasil komputasi akan muncul di sini.</span>';
+            // Memperbarui dimensi berdasarkan syarat operasi baru
             updateDimensions();
+            
+            // Otomatis melakukan perhitungan tanpa menghilangkan hasil
+            calculateMatrix();
         }
 
         // 2. Memperbarui dan Memvalidasi Dimensi Baris/Kolom
