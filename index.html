@@ -564,7 +564,66 @@
         </section>
 
         <!-- Section 3: Trigonometri -->
+        <!-- Section 3: Trigonometri -->
         <section id="trigonometri" class="tab-content">
+            <div class="plotting-layout">
+                <div class="left-panel">
+                    <h2>Visualisasi Gelombang</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem;">Eksplorasi bagaimana amplitudo, periode, dan fase mengubah bentuk gelombang.</p>
+                    
+                    <div class="controls">
+                        <div class="control-full">
+                            <label for="trigoType">Jenis Gelombang:</label>
+                            <select id="trigoType">
+                                <option value="sin">Sinus (y = A sin(k(x - α)) + C)</option>
+                                <option value="cos">Cosinus (y = A cos(k(x - α)) + C)</option>
+                                <option value="tan">Tangen (y = A tan(k(x - α)) + C)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Amplitudo (A): <input type="number" id="valAmp" class="num-input" value="1" step="0.5"></label>
+                            <input type="range" id="amp" min="-5" max="5" step="0.5" value="1">
+                        </div>
+                        <div>
+                            <label>Frekuensi / k: <input type="number" id="valK" class="num-input" value="1" step="0.5"></label>
+                            <input type="range" id="k" min="0.5" max="5" step="0.5" value="1">
+                        </div>
+                        <div>
+                            <label>Fase / Geser Kiri-Kanan (α): <input type="number" id="valPhase" class="num-input" value="0" step="15"></label>
+                            <input type="range" id="phase" min="-180" max="180" step="15" value="0">
+                        </div>
+                        <div>
+                            <label>Geser Vertikal (C): <input type="number" id="valC_trigo" class="num-input" value="0" step="0.5"></label>
+                            <input type="range" id="c_trigo" min="-5" max="5" step="0.5" value="0">
+                        </div>
+                    </div>
+
+                    <div class="formula-display" id="trigoFormula">y = 1 sin(x)</div>
+
+                    <div style="background: #f8fafc; padding: 15px; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.9rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Periode Gelombang:</span>
+                            <strong id="trigoPeriod" style="color: var(--primary);">360° (2π)</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Nilai Maksimum:</span>
+                            <strong id="trigoMax" style="color: var(--primary);">1</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Nilai Minimum:</span>
+                            <strong id="trigoMin" style="color: var(--primary);">-1</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="right-panel">
+                    <div class="canvas-container">
+                        <canvas id="trigoCanvas" width="500" height="500"></canvas>
+                    </div>
+                    <p class="zoom-hint">Tarik (drag) canvas untuk menggeser grafik sumbu koordinat.</p>
+                </div>
+            </div>
+        </section>
             <h2>Trigonometri</h2>
             <p style="color: var(--text-secondary);">Area ini akan digunakan untuk kalkulasi nilai sinus, kosinus, tangen, serta identitas trigonometri.</p>
         </section>
@@ -582,6 +641,7 @@
             event.currentTarget.classList.add('active');
 
             if (tabId === 'plotting') drawGraph();
+            if (tabId === 'trigonometri') drawTrigoGraph(); // <--- TAMBAHKAN BARIS INI
         }
 
         // ==========================================
@@ -1115,6 +1175,207 @@
         }, { passive: false });
 
         initTable(); drawGraph();
+
+        // ==========================================
+        // --- TRIGONOMETRI (Visualisasi Gelombang) ---
+        // ==========================================
+        const tCanvas = document.getElementById('trigoCanvas');
+        const tCtx = tCanvas.getContext('2d');
+        const tWidth = tCanvas.width;
+        const tHeight = tCanvas.height;
+
+        let tRange = 13; // Rentang default (skala radian)
+        let tOffsetX = 0;
+        let tOffsetY = 0;
+        let tIsDragging = false;
+        let tStartX = 0;
+        let tStartY = 0;
+
+        const trigoType = document.getElementById('trigoType');
+        const valAmp = document.getElementById('valAmp');
+        const valK = document.getElementById('valK');
+        const valPhase = document.getElementById('valPhase');
+        const valC_trigo = document.getElementById('valC_trigo');
+        const trigoFormula = document.getElementById('trigoFormula');
+
+        // Sync slider dan angka khusus trigonometri
+        function syncTrigoControl(sliderId, numId) {
+            const slider = document.getElementById(sliderId);
+            const numInput = document.getElementById(numId);
+            
+            slider.addEventListener('input', () => {
+                numInput.value = slider.value;
+                drawTrigoGraph();
+            });
+            
+            numInput.addEventListener('input', () => {
+                if (numInput.value !== "") slider.value = numInput.value;
+                drawTrigoGraph();
+            });
+        }
+
+        syncTrigoControl('amp', 'valAmp');
+        syncTrigoControl('k', 'valK');
+        syncTrigoControl('phase', 'valPhase');
+        syncTrigoControl('c_trigo', 'valC_trigo');
+        trigoType.addEventListener('change', drawTrigoGraph);
+
+        // Gambar Sumbu X dengan label Pi (π) khusus trigonometri
+        function drawTrigoAxes(ctx, scale, centerX, centerY) {
+            ctx.strokeStyle = '#e2e8f0'; 
+            ctx.lineWidth = 1;
+            ctx.font = '11px Inter, sans-serif';
+            ctx.fillStyle = '#64748b'; 
+
+            let step = Math.PI / 2; // Grid vertikal setiap 90 derajat
+            let minMathX = (-centerX) / scale;
+            let maxMathX = (tWidth - centerX) / scale;
+            
+            let startXGrid = Math.floor(minMathX / step) * step;
+            let endXGrid = Math.ceil(maxMathX / step) * step;
+
+            for (let i = startXGrid; i <= endXGrid; i += step) {
+                let px = centerX + (i * scale);
+                ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, tHeight); ctx.stroke();
+                
+                if (Math.abs(i) > 0.0001) {
+                    let label = '';
+                    let mult = Math.round(i / (Math.PI / 2));
+                    if (mult === 1) label = 'π/2';
+                    else if (mult === -1) label = '-π/2';
+                    else if (mult === 2) label = 'π';
+                    else if (mult === -2) label = '-π';
+                    else if (mult % 2 === 0) label = (mult/2) + 'π';
+                    else label = mult + 'π/2';
+                    
+                    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+                    ctx.fillText(label, px, Math.max(5, Math.min(tHeight - 20, centerY + 5)));
+                }
+            }
+            
+            // Grid horizontal (Sumbu Y biasa)
+            let minMathY = (centerY - tHeight) / scale;
+            let maxMathY = (centerY) / scale;
+            for (let i = Math.floor(minMathY); i <= Math.ceil(maxMathY); i += 1) {
+                let py = centerY - (i * scale);
+                ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(tWidth, py); ctx.stroke();
+                if (Math.abs(i) > 0.0001) {
+                    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+                    ctx.fillText(i, Math.max(5, Math.min(tWidth - 5, centerX - 5)), py);
+                }
+            }
+
+            // Sumbu Utama
+            ctx.strokeStyle = '#0f172a'; ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.moveTo(centerX, 0); ctx.lineTo(centerX, tHeight); ctx.stroke(); 
+            ctx.beginPath(); ctx.moveTo(0, centerY); ctx.lineTo(tWidth, centerY); ctx.stroke(); 
+            
+            ctx.textAlign = 'right'; ctx.textBaseline = 'top';
+            ctx.fillText('0', centerX - 5, centerY + 5);
+        }
+
+        // Gambar Gelombang Utama
+        function drawTrigoGraph() {
+            let tScale = tWidth / tRange;
+            let type = trigoType.value;
+            let A = parseFloat(valAmp.value) || 0;
+            let k = parseFloat(valK.value) || 1;
+            if (k === 0) k = 1; // Cegah error jika k=0
+            let phaseDeg = parseFloat(valPhase.value) || 0;
+            let C = parseFloat(valC_trigo.value) || 0;
+            
+            let phaseRad = phaseDeg * (Math.PI / 180);
+
+            // Update UI Teks Formula
+            let phaseText = phaseDeg === 0 ? "x" : `(x ${phaseDeg > 0 ? '-' : '+'} ${Math.abs(phaseDeg)}°)`;
+            let kText = k === 1 ? "" : k;
+            let cText = C === 0 ? "" : (C > 0 ? ` + ${C}` : ` - ${Math.abs(C)}`);
+            trigoFormula.innerHTML = `y = ${A} ${type}(${kText}${phaseText})${cText}`;
+
+            // Update UI Informasi Periode & Max/Min
+            let period = 360 / Math.abs(k);
+            let piPeriod = 2 / Math.abs(k);
+            
+            if(type === 'tan') {
+                document.getElementById('trigoPeriod').innerText = `${180 / Math.abs(k)}° (${1/Math.abs(k)}π)`;
+                document.getElementById('trigoMax').innerText = '∞ (Tak Terhingga)';
+                document.getElementById('trigoMin').innerText = '-∞ (Tak Terhingga)';
+            } else {
+                document.getElementById('trigoPeriod').innerText = `${period}° (${piPeriod}π)`;
+                document.getElementById('trigoMax').innerText = A >= 0 ? (A + C) : (Math.abs(A) + C);
+                document.getElementById('trigoMin').innerText = A >= 0 ? (-A + C) : (-Math.abs(A) + C);
+            }
+
+            tCtx.clearRect(0, 0, tWidth, tHeight);
+            let centerX = tWidth / 2 + tOffsetX;
+            let centerY = tHeight / 2 + tOffsetY;
+
+            drawTrigoAxes(tCtx, tScale, centerX, centerY);
+
+            tCtx.beginPath(); 
+            tCtx.strokeStyle = '#d93025'; 
+            tCtx.lineWidth = 2.5;
+            let prevY = null;
+
+            for (let px = 0; px <= tWidth; px++) {
+                const mathX = (px - centerX) / tScale;
+                let mathY = null;
+                let angle = k * (mathX - phaseRad);
+
+                if (type === 'sin') mathY = A * Math.sin(angle) + C;
+                else if (type === 'cos') mathY = A * Math.cos(angle) + C;
+                else if (type === 'tan') mathY = A * Math.tan(angle) + C;
+
+                const py = centerY - (mathY * tScale);
+                
+                // Mencegah garis asimtot menyambung lurus vertikal pada grafik Tangen
+                if (type === 'tan' && prevY !== null && Math.abs((py - prevY)) > tHeight/2) {
+                    tCtx.stroke();
+                    tCtx.beginPath();
+                }
+
+                if (px === 0 || (type === 'tan' && prevY !== null && Math.abs((py - prevY)) > tHeight/2)) {
+                    tCtx.moveTo(px, py);
+                } else {
+                    tCtx.lineTo(px, py);
+                }
+                prevY = py;
+            }
+            tCtx.stroke();
+        }
+
+        // Interaksi Geser (Pan) Khusus Canvas Trigonometri
+        tCanvas.addEventListener('mousedown', (e) => {
+            tIsDragging = true; 
+            tStartX = e.clientX - tOffsetX; 
+            tStartY = e.clientY - tOffsetY;
+        });
+        window.addEventListener('mousemove', (e) => {
+            if (!tIsDragging) return;
+            tOffsetX = e.clientX - tStartX; 
+            tOffsetY = e.clientY - tStartY; 
+            drawTrigoGraph();
+        });
+        window.addEventListener('mouseup', () => { tIsDragging = false; });
+        tCanvas.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                tIsDragging = true; 
+                tStartX = e.touches[0].clientX - tOffsetX; 
+                tStartY = e.touches[0].clientY - tOffsetY;
+            }
+        });
+        tCanvas.addEventListener('touchmove', (e) => {
+            if (tIsDragging && e.touches.length === 1) {
+                e.preventDefault(); 
+                tOffsetX = e.touches[0].clientX - tStartX; 
+                tOffsetY = e.touches[0].clientY - tStartY; 
+                drawTrigoGraph();
+            }
+        }, {passive: false});
+        tCanvas.addEventListener('touchend', () => { tIsDragging = false; });
+
+        // Panggil render pertama kali untuk menyiapkan canvas
+        drawTrigoGraph();
     </script>
 </body>
 </html>
