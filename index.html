@@ -7,8 +7,13 @@
     <!-- Google Font: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Tailwind CSS CDN (untuk tab VEKTOR) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons (untuk tab VEKTOR) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
             --bg-body: #f8fafc;
@@ -45,19 +50,19 @@
             margin: 0 auto;
         }
 
-        header {
+        header.main-header {
             margin-bottom: 20px;
             text-align: center;
         }
 
-        header h1 {
+        header.main-header h1 {
             font-size: 1.75rem;
             font-weight: 700;
             color: var(--text-primary);
             letter-spacing: -0.02em;
         }
 
-        header p {
+        header.main-header p {
             color: var(--text-secondary);
             font-size: 0.95rem;
             margin-top: 4px;
@@ -70,6 +75,7 @@
             border-radius: var(--radius-lg);
             padding: 5px;
             display: flex;
+            flex-wrap: wrap;
             gap: 4px;
             margin-bottom: 20px;
         }
@@ -85,6 +91,7 @@
             border-radius: var(--radius-md);
             cursor: pointer;
             transition: all 0.2s ease-in-out;
+            min-width: 120px;
         }
 
         .tab-btn:hover {
@@ -112,6 +119,26 @@
             display: block;
         }
 
+        /* Khusus Tab Vektor: Menghapus padding agar tema gelap meluas penuh */
+        #vektor.tab-content {
+            padding: 0;
+            background-color: #020617; /* Tailwind slate-950 */
+            border: none;
+            overflow: hidden;
+        }
+
+        /* Custom Scrollbar untuk tab Vektor */
+        #vektor ::-webkit-scrollbar {
+            width: 6px;
+        }
+        #vektor ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        #vektor ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 3px;
+        }
+
         /* Layout Grid Plotting */
         .plotting-layout {
             display: flex;
@@ -130,7 +157,7 @@
             grid-column: 1 / -1;
         }
 
-        label {
+        label.home-label {
             font-size: 0.85rem;
             font-weight: 600;
             color: var(--text-primary);
@@ -140,7 +167,7 @@
             align-items: center;
         }
 
-        select, input[type="range"] {
+        select.home-select, input[type="range"].home-range {
             width: 100%;
             font-size: 0.9rem;
             padding: 8px 12px;
@@ -150,7 +177,7 @@
             color: var(--text-primary);
         }
 
-        input[type="range"] {
+        input[type="range"].home-range {
             padding: 0;
             border: none;
             height: 24px;
@@ -199,7 +226,7 @@
             margin: 0 auto;
         }
 
-        canvas {
+        canvas.home-canvas {
             position: absolute;
             top: 0;
             left: 0;
@@ -212,7 +239,7 @@
             cursor: grab;
         }
 
-        canvas:active {
+        canvas.home-canvas:active {
             cursor: grabbing;
         }
 
@@ -427,6 +454,7 @@
         @media (min-width: 850px) {
             body { padding: 40px 20px; }
             .tab-content { padding: 32px; }
+            #vektor.tab-content { padding: 0; }
             .plotting-layout {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
@@ -440,7 +468,7 @@
 <body>
 
     <div class="container">
-        <header>
+        <header class="main-header">
             <h1>Pembelajaran Matematika Interaktif</h1>
             <p>Eksplorasi konsep matematika secara visual dan kalkulasi real-time.</p>
         </header>
@@ -450,17 +478,17 @@
             <button class="tab-btn active" onclick="switchTab(event, 'plotting')">Plotting Grafik</button>
             <button class="tab-btn" onclick="switchTab(event, 'matriks')">Matriks</button>
             <button class="tab-btn" onclick="switchTab(event, 'trigonometri')">Trigonometri</button>
+            <button class="tab-btn" onclick="switchTab(event, 'vektor')">Vektor</button>
         </div>
 
         <!-- Section 1: Plotting Grafik -->
         <section id="plotting" class="tab-content active">
-            <!-- (Isi persis sama dengan kode asli Anda) -->
             <div class="plotting-layout">
                 <div class="left-panel">
                     <div class="controls">
                         <div class="control-full">
-                            <label for="funcType">Jenis Fungsi:</label>
-                            <select id="funcType">
+                            <label class="home-label" for="funcType">Jenis Fungsi:</label>
+                            <select id="funcType" class="home-select">
                                 <option value="linear">Fungsi Linear (y = ax + b)</option>
                                 <option value="quadratic">Fungsi Kuadrat (y = ax² + bx + c)</option>
                                 <option value="rational">Fungsi Rasional (y = a / (x - b)ⁿ + c)</option>
@@ -471,20 +499,20 @@
                             </select>
                         </div>
                         <div>
-                            <label>Koefisien a: <input type="number" id="valA" class="num-input" value="1" step="0.1"></label>
-                            <input type="range" id="a" min="-5" max="5" step="0.1" value="1">
+                            <label class="home-label">Koefisien a: <input type="number" id="valA" class="num-input" value="1" step="0.1"></label>
+                            <input type="range" id="a" min="-5" max="5" step="0.1" value="1" class="home-range">
                         </div>
                         <div>
-                            <label>Koefisien b: <input type="number" id="valB" class="num-input" value="0" step="0.1"></label>
-                            <input type="range" id="b" min="-5" max="5" step="0.1" value="0">
+                            <label class="home-label">Koefisien b: <input type="number" id="valB" class="num-input" value="0" step="0.1"></label>
+                            <input type="range" id="b" min="-5" max="5" step="0.1" value="0" class="home-range">
                         </div>
                         <div id="cControl" style="display: none;">
-                            <label>Koefisien c: <input type="number" id="valC" class="num-input" value="0" step="0.1"></label>
-                            <input type="range" id="c" min="-5" max="5" step="0.1" value="0">
+                            <label class="home-label">Koefisien c: <input type="number" id="valC" class="num-input" value="0" step="0.1"></label>
+                            <input type="range" id="c" min="-5" max="5" step="0.1" value="0" class="home-range">
                         </div>
                         <div id="nControl" style="display: none;">
-                            <label>Pangkat n: <input type="number" id="valN" class="num-input" value="1" step="1" min="1"></label>
-                            <input type="range" id="n" min="1" max="5" step="1" value="1">
+                            <label class="home-label">Pangkat n: <input type="number" id="valN" class="num-input" value="1" step="1" min="1"></label>
+                            <input type="range" id="n" min="1" max="5" step="1" value="1" class="home-range">
                         </div>
                     </div>
 
@@ -501,14 +529,14 @@
                 
                 <div class="right-panel">
                     <div class="canvas-container">
-                        <canvas id="graphCanvas" width="500" height="500"></canvas>
+                        <canvas id="graphCanvas" class="home-canvas" width="500" height="500"></canvas>
                     </div>
                     <p class="zoom-hint">Geser canvas atau scroll/pinch untuk memperbesar/memperkecil grafik.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Section 2: Matriks (Diperbarui dengan Dimensi Kustom & Tombol) -->
+        <!-- Section 2: Matriks -->
         <section id="matriks" class="tab-content">
             
             <!-- Tombol Operasi -->
@@ -562,7 +590,6 @@
         </section>
 
         <!-- Section 3: Trigonometri -->
-        <!-- Section 3: Trigonometri -->
         <section id="trigonometri" class="tab-content">
             <div class="plotting-layout">
                 <div class="left-panel">
@@ -571,28 +598,28 @@
                     
                     <div class="controls">
                         <div class="control-full">
-                            <label for="trigoType">Jenis Gelombang:</label>
-                            <select id="trigoType">
+                            <label class="home-label" for="trigoType">Jenis Gelombang:</label>
+                            <select id="trigoType" class="home-select">
                                 <option value="sin">Sinus (y = A sin(k(x - α)) + C)</option>
                                 <option value="cos">Cosinus (y = A cos(k(x - α)) + C)</option>
                                 <option value="tan">Tangen (y = A tan(k(x - α)) + C)</option>
                             </select>
                         </div>
                         <div>
-                            <label>Amplitudo (A): <input type="number" id="valAmp" class="num-input" value="1" step="0.5"></label>
-                            <input type="range" id="amp" min="-5" max="5" step="0.5" value="1">
+                            <label class="home-label">Amplitudo (A): <input type="number" id="valAmp" class="num-input" value="1" step="0.5"></label>
+                            <input type="range" id="amp" min="-5" max="5" step="0.5" value="1" class="home-range">
                         </div>
                         <div>
-                            <label>Frekuensi / k: <input type="number" id="valK" class="num-input" value="1" step="0.5"></label>
-                            <input type="range" id="k" min="0.5" max="5" step="0.5" value="1">
+                            <label class="home-label">Frekuensi / k: <input type="number" id="valK" class="num-input" value="1" step="0.5"></label>
+                            <input type="range" id="k" min="0.5" max="5" step="0.5" value="1" class="home-range">
                         </div>
                         <div>
-                            <label>Fase / Geser Kiri-Kanan (α): <input type="number" id="valPhase" class="num-input" value="0" step="15"></label>
-                            <input type="range" id="phase" min="-180" max="180" step="15" value="0">
+                            <label class="home-label">Fase / Geser Kiri-Kanan (α): <input type="number" id="valPhase" class="num-input" value="0" step="15"></label>
+                            <input type="range" id="phase" min="-180" max="180" step="15" value="0" class="home-range">
                         </div>
                         <div>
-                            <label>Geser Vertikal (C): <input type="number" id="valC_trigo" class="num-input" value="0" step="0.5"></label>
-                            <input type="range" id="c_trigo" min="-5" max="5" step="0.5" value="0">
+                            <label class="home-label">Geser Vertikal (C): <input type="number" id="valC_trigo" class="num-input" value="0" step="0.5"></label>
+                            <input type="range" id="c_trigo" min="-5" max="5" step="0.5" value="0" class="home-range">
                         </div>
                     </div>
 
@@ -616,13 +643,249 @@
                 
                 <div class="right-panel">
                     <div class="canvas-container">
-                        <canvas id="trigoCanvas" width="500" height="500"></canvas>
+                        <canvas id="trigoCanvas" class="home-canvas" width="500" height="500"></canvas>
                     </div>
                     <p class="zoom-hint">Tarik (drag) canvas untuk menggeser grafik sumbu koordinat.</p>
                 </div>
             </div>
         </section>
-            <p style="color: var(--text-secondary); font-style: italic; text-align: center;">M.Rifqi Mahmudi</p>
+
+        <!-- Section 4: VEKTOR -->
+        <section id="vektor" class="tab-content">
+            <!-- Vektor Wrapper untuk menerapkan styling khusus Tailwind Dark Mode tanpa merusak desain HOME -->
+            <div class="vektor-app-wrapper bg-slate-950 text-slate-100 flex flex-col font-sans" style="border-radius: var(--radius-md); min-height: 85vh;">
+                <!-- Header & Navigation Vektor -->
+                <div class="bg-slate-900 border-b border-slate-800 px-4 py-3 sticky top-0 z-30 shadow-lg">
+                    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-indigo-600 p-2 rounded-lg text-white font-bold text-xl flex items-center justify-center w-10 h-10 shadow-md shadow-indigo-500/20">
+                                <i class="fa-solid fa-location-arrow"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-lg font-bold text-white tracking-wide !m-0 !p-0">Simulasi Vektor Matematika</h1>
+                                <p class="text-xs text-slate-400 !m-0 !p-0">Game Pelontar Ketapel Interaktif</p>
+                            </div>
+                        </div>
+
+                        <!-- Level Selector -->
+                        <div class="flex items-center gap-1.5 bg-slate-800/80 p-1 rounded-xl border border-slate-700/60 overflow-x-auto max-w-full">
+                            <button onclick="v_setLevel(1)" id="btn-lvl-1" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-white bg-indigo-600 shadow border-none">Level 1</button>
+                            <button onclick="v_setLevel(2)" id="btn-lvl-2" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-400 hover:text-white hover:bg-slate-700 border-none bg-transparent">Level 2</button>
+                            <button onclick="v_setLevel(3)" id="btn-lvl-3" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-400 hover:text-white hover:bg-slate-700 border-none bg-transparent">Level 3</button>
+                            <button onclick="v_setLevel(4)" id="btn-lvl-4" class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-400 hover:text-white hover:bg-slate-700 border-none bg-transparent">Sandbox</button>
+                        </div>
+
+                        <!-- Audio & Reset Quick Controls -->
+                        <div class="flex items-center gap-2">
+                            <button id="btn-sound" onclick="v_toggleSound()" class="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm border border-slate-700 transition" title="Toggle Suara">
+                                <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+                            </button>
+                            <button onclick="v_resetSimulation()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-rotate-right"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Grid Vektor -->
+                <div class="flex-1 w-full mx-auto p-3 sm:p-5 grid grid-cols-1 lg:grid-cols-12 gap-5">
+                    
+                    <!-- Left Column: Canvas & Controls -->
+                    <div class="lg:col-span-7 flex flex-col gap-4">
+                        <!-- Simulation Canvas Card -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl relative flex flex-col">
+                            <!-- Canvas Header Bar -->
+                            <div class="bg-slate-900/90 px-4 py-2.5 border-b border-slate-800 flex justify-between items-center text-xs text-slate-400">
+                                <span id="level-title-display" class="font-bold text-indigo-400 flex items-center gap-2">
+                                    <i class="fa-solid fa-bullseye"></i> Level 1: Dasar Vektor
+                                </span>
+                                <div class="flex items-center gap-4">
+                                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span> &#120781; Vektor Pelontar</span>
+                                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block"></span> &#119852; Angin</span>
+                                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-purple-500 inline-block"></span> &#120781;<sub>tot</sub> Resultan</span>
+                                </div>
+                            </div>
+
+                            <!-- Canvas Area -->
+                            <div class="relative w-full aspect-[16/10] bg-slate-950 flex items-center justify-center overflow-hidden">
+                                <canvas id="simCanvas" class="w-full h-full cursor-crosshair" style="touch-action: none;"></canvas>
+
+                                <!-- Target Hit Overlay Banner -->
+                                <div id="hit-modal" class="hidden absolute inset-0 bg-slate-950/80 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center animate-fade-in z-20">
+                                    <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-3xl mb-3 border border-emerald-500/30">
+                                        <i class="fa-solid fa-trophy"></i>
+                                    </div>
+                                    <h2 class="text-2xl font-extrabold text-white mb-1 !m-0">Tepat Sasaran!</h2>
+                                    <p id="hit-details" class="text-sm text-slate-300 max-w-md mb-5">Tembakanmu berhasil mengenai target secara akurat.</p>
+                                    <div class="flex gap-3 justify-center">
+                                        <button onclick="v_resetSimulation()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-lg border border-slate-700 transition">Coba Lagi</button>
+                                        <button onclick="v_nextLevel()" id="btn-next-lvl" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg shadow-lg shadow-indigo-600/30 transition border-none">Level Berikutnya &rarr;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Action Bar Below Canvas -->
+                            <div class="p-3 bg-slate-900 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                                <!-- Scalar Multiplier Controls -->
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-semibold text-slate-400">Pengali Skalar (k):</span>
+                                    <div class="flex bg-slate-800 p-1 rounded-lg border border-slate-700 text-xs">
+                                        <button onclick="v_setScalar(1)" id="btn-k-1" class="px-2.5 py-1 rounded font-bold text-white bg-indigo-600 border-none">1.0x</button>
+                                        <button onclick="v_setScalar(1.5)" id="btn-k-1.5" class="px-2.5 py-1 rounded font-semibold text-slate-400 hover:text-white border-none bg-transparent">1.5x</button>
+                                        <button onclick="v_setScalar(2)" id="btn-k-2" class="px-2.5 py-1 rounded font-semibold text-slate-400 hover:text-white border-none bg-transparent">2.0x</button>
+                                    </div>
+                                </div>
+
+                                <!-- Launch Button -->
+                                <button onclick="v_fireProjectile()" id="btn-fire" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold rounded-xl shadow-lg shadow-emerald-600/30 transition-all transform active:scale-95 flex items-center gap-2 border-none">
+                                    <i class="fa-solid fa-paper-plane"></i> TEMBAK!
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Manual Control Sliders Card -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-2 !m-0 pb-2">
+                                <i class="fa-solid fa-sliders text-indigo-400"></i> Kontrol Presisi Parameter Vektor
+                            </h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                                <!-- Velocity Magnitude Slider -->
+                                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                                    <div class="flex justify-between mb-1">
+                                        <label class="text-slate-300 font-semibold flex items-center gap-1.5 !m-0">
+                                            <span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span> Besaran Gaya (|v|)
+                                        </label>
+                                        <span id="val-mag" class="font-mono text-blue-400 font-bold">35.0 m/s</span>
+                                    </div>
+                                    <input type="range" id="slider-mag" min="5" max="60" step="0.5" value="35" oninput="v_updateFromSliders()" class="w-full accent-blue-500 cursor-pointer h-2 bg-slate-700 rounded-lg appearance-none">
+                                </div>
+
+                                <!-- Angle Slider -->
+                                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                                    <div class="flex justify-between mb-1">
+                                        <label class="text-slate-300 font-semibold flex items-center gap-1.5 !m-0">
+                                            <i class="fa-solid fa-angle-up text-amber-400"></i> Sudut Elevasi (&theta;)
+                                        </label>
+                                        <span id="val-angle" class="font-mono text-amber-400 font-bold">45.0&deg;</span>
+                                    </div>
+                                    <input type="range" id="slider-angle" min="5" max="85" step="0.5" value="45" oninput="v_updateFromSliders()" class="w-full accent-amber-500 cursor-pointer h-2 bg-slate-700 rounded-lg appearance-none">
+                                </div>
+
+                                <!-- Vx Component Slider -->
+                                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                                    <div class="flex justify-between mb-1">
+                                        <label class="text-slate-300 font-semibold flex items-center gap-1.5 !m-0">
+                                            <span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></span> Komponen v<sub>x</sub>
+                                        </label>
+                                        <span id="val-vx" class="font-mono text-red-400 font-bold">24.7 m/s</span>
+                                    </div>
+                                    <input type="range" id="slider-vx" min="1" max="55" step="0.5" value="24.7" oninput="v_updateFromComponents()" class="w-full accent-red-500 cursor-pointer h-2 bg-slate-700 rounded-lg appearance-none">
+                                </div>
+
+                                <!-- Vy Component Slider -->
+                                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                                    <div class="flex justify-between mb-1">
+                                        <label class="text-slate-300 font-semibold flex items-center gap-1.5 !m-0">
+                                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Komponen v<sub>y</sub>
+                                        </label>
+                                        <span id="val-vy" class="font-mono text-emerald-400 font-bold">24.7 m/s</span>
+                                    </div>
+                                    <input type="range" id="slider-vy" min="1" max="55" step="0.5" value="24.7" oninput="v_updateFromComponents()" class="w-full accent-emerald-500 cursor-pointer h-2 bg-slate-700 rounded-lg appearance-none">
+                                </div>
+                            </div>
+
+                            <!-- Dynamic Sandbox Settings (Hidden unless level 4) -->
+                            <div id="sandbox-controls" class="hidden mt-4 pt-3 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                                <div>
+                                    <label class="text-slate-400 font-medium !m-0">Kekuatan Angin Horizontal (w<sub>x</sub>)</label>
+                                    <input type="range" id="slider-wx" min="-25" max="25" step="1" value="-10" oninput="v_updateSandbox()" class="w-full accent-cyan-400 h-2 bg-slate-700 rounded-lg appearance-none mt-1">
+                                </div>
+                                <div>
+                                    <label class="text-slate-400 font-medium !m-0">Gravitasi Lingkungan (g)</label>
+                                    <input type="range" id="slider-g" min="3" max="20" step="0.5" value="9.8" oninput="v_updateSandbox()" class="w-full accent-indigo-400 h-2 bg-slate-700 rounded-lg appearance-none mt-1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Math Live Dashboard & Guides -->
+                    <div class="lg:col-span-5 flex flex-col gap-4">
+                        <!-- Live Math Computations Panel -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-col gap-3">
+                            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2 !m-0">
+                                    <i class="fa-solid fa-calculator text-indigo-400"></i> Panel Perhitungan Live
+                                </h3>
+                                <span class="text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded-full font-mono">Real-time</span>
+                            </div>
+
+                            <!-- Formulas Stack -->
+                            <div class="space-y-2.5 text-xs">
+                                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
+                                    <div class="text-slate-400 font-medium mb-1">1. Komponen Vektor Dorongan (&vec;v):</div>
+                                    <div class="font-mono text-slate-200 text-sm space-y-0.5">
+                                        <div>v<sub>x</sub> = |v| &middot; cos(&theta;) = <span id="math-vx" class="text-red-400 font-bold">24.7</span> m/s</div>
+                                        <div>v<sub>y</sub> = |v| &middot; sin(&theta;) = <span id="math-vy" class="text-emerald-400 font-bold">24.7</span> m/s</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
+                                    <div class="text-slate-400 font-medium mb-1">2. Besaran & Sudut Vektor Awal:</div>
+                                    <div class="font-mono text-slate-200 text-sm space-y-0.5">
+                                        <div>|&vec;v| = &radic;(v<sub>x</sub>&sup2; + v<sub>y</sub>&sup2;) = <span id="math-mag" class="text-blue-400 font-bold">35.0</span> m/s</div>
+                                        <div>&theta; = arctan(v<sub>y</sub> / v<sub>x</sub>) = <span id="math-theta" class="text-amber-400 font-bold">45.0</span>&deg;</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
+                                    <div class="text-slate-400 font-medium mb-1">3. Efek Perkalian Skalar (k &middot; &vec;v):</div>
+                                    <div class="font-mono text-slate-200 text-sm">
+                                        k &middot; &vec;v = <span id="math-scalar-val" class="text-indigo-400 font-bold">1.0</span> &middot; (<span id="math-sk-vx" class="text-red-400">24.7</span>, <span id="math-sk-vy" class="text-emerald-400">24.7</span>) = (<span id="math-res-skx" class="text-slate-100 font-bold">24.7</span>, <span id="math-res-sky" class="text-slate-100 font-bold">24.7</span>)
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
+                                    <div class="text-slate-400 font-medium mb-1">4. Penjumlahan Vektor (Total + Angin):</div>
+                                    <div class="font-mono text-slate-200 text-sm space-y-1">
+                                        <div class="text-xs text-slate-400">&vec;v<sub>total</sub> = k&middot;&vec;v + &vec;w</div>
+                                        <div class="text-purple-400 font-bold">
+                                            &vec;v<sub>tot</sub> = (<span id="math-tot-x">24.7</span>, <span id="math-tot-y">24.7</span>) m/s
+                                        </div>
+                                        <div class="text-xs text-slate-300">
+                                            Besaran |&vec;v<sub>tot</sub>| = <span id="math-tot-mag" class="font-bold text-purple-300">34.9</span> m/s
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Level Description & Concept Card -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-2 !m-0 pb-2">
+                                    <i class="fa-solid fa-graduation-cap text-indigo-400"></i> Misi & Konsep Pemelajaran
+                                </h3>
+                                <p id="level-description" class="text-xs text-slate-300 leading-relaxed mb-3">
+                                    Arahkan ketapel untuk mengenai sasaran di papan target. Perhatikan bagaimana sudut dan kekuatan tarikan mempengaruhi arah vektor dorongan.
+                                </p>
+                                
+                                <div class="bg-indigo-950/40 border border-indigo-800/50 p-2.5 rounded-xl text-xs text-indigo-200 flex items-start gap-2">
+                                    <i class="fa-solid fa-lightbulb text-amber-400 text-sm mt-0.5"></i>
+                                    <span id="level-hint">Petunjuk: Tarik karet ketapel secara langsung di canvas atau gunakan slider komponen.</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 space-y-1">
+                                <div class="font-semibold text-slate-300">Sistem Koordinat Kartesius:</div>
+                                <p class="!m-0">Sumbu X (Merah) melambangkan jarak horizontal, Sumbu Y (Hijau) melambangkan ketinggian vertikal.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <p style="color: var(--text-secondary); font-style: italic; text-align: center; margin-top: 15px;">M.Rifqi Mahmudi</p>
     </div>
 
     <script>
@@ -637,21 +900,24 @@
             event.currentTarget.classList.add('active');
 
             if (tabId === 'plotting') drawGraph();
-            if (tabId === 'trigonometri') drawTrigoGraph(); // <--- TAMBAHKAN BARIS INI
+            if (tabId === 'trigonometri') drawTrigoGraph(); 
+            if (tabId === 'vektor') {
+                // Beri waktu sejenak agar CSS display memuat sebelum mengukur dimensi canvas Vektor
+                setTimeout(() => {
+                    v_resizeCanvas();
+                    v_setLevel(v_currentLevelIdx + 1);
+                }, 50);
+            }
         }
 
         // ==========================================
-        // --- SISTEM MATRIKS (DIMENSI KUSTOM) ---
+        // --- SISTEM MATRIKS ---
         // ==========================================
         let currentOp = 'add';
 
-        // 1. Mengubah Mode Operasi
         function setOperation(op) {
             currentOp = op;
-            
-            // Ubah tampilan tombol aktif
             document.querySelectorAll('.op-btn').forEach(btn => btn.classList.remove('active'));
-            // Gunakan event.currentTarget agar aman dari klik pada elemen anak (jika ada)
             if(event) event.currentTarget.classList.add('active');
 
             const opSign = document.getElementById('operatorSign');
@@ -670,15 +936,10 @@
                 if (op === 'sub') opSign.textContent = '−';
                 if (op === 'mul') opSign.textContent = '×';
             }
-
-            // Memperbarui dimensi berdasarkan syarat operasi baru
             updateDimensions();
-            
-            // Otomatis melakukan perhitungan tanpa menghilangkan hasil
             calculateMatrix();
         }
 
-        // 2. Memperbarui dan Memvalidasi Dimensi Baris/Kolom
         function updateDimensions() {
             let rA = parseInt(document.getElementById('rowsA').value) || 1;
             let cA = parseInt(document.getElementById('colsA').value) || 1;
@@ -689,26 +950,18 @@
             const inputColsB = document.getElementById('colsB');
             const inputColsA = document.getElementById('colsA');
 
-            // Reset disable states
             inputRowsB.disabled = false;
             inputColsB.disabled = false;
             inputColsA.disabled = false;
 
-            // Aturan Validasi Dimensi
             if (currentOp === 'add' || currentOp === 'sub') {
-                // Syarat: Ordo harus sama persis
-                rB = rA; 
-                cB = cA;
+                rB = rA; cB = cA;
                 inputRowsB.value = rB; inputRowsB.disabled = true;
                 inputColsB.value = cB; inputColsB.disabled = true;
-            } 
-            else if (currentOp === 'mul') {
-                // Syarat: Kolom A = Baris B
+            } else if (currentOp === 'mul') {
                 rB = cA;
                 inputRowsB.value = rB; inputRowsB.disabled = true;
-            } 
-            else if (currentOp === 'det' || currentOp === 'inv') {
-                // Syarat: Matriks harus persegi (Baris = Kolom)
+            } else if (currentOp === 'det' || currentOp === 'inv') {
                 cA = rA;
                 inputColsA.value = cA; inputColsA.disabled = true;
             }
@@ -719,12 +972,10 @@
             }
         }
 
-        // 3. Me-render (Menggambar) Kotak Input Matriks HTML
         function renderGrid(containerId, rows, cols) {
             const container = document.getElementById(containerId);
             container.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
             
-            // Simpan nilai lama jika ada, agar tidak hilang saat dimensi diubah
             let oldValues = [];
             container.querySelectorAll('input').forEach(input => {
                 let idParts = input.id.split('_');
@@ -740,14 +991,12 @@
                     input.type = 'number';
                     input.className = 'matrix-cell';
                     input.id = `${containerId}_${i}_${j}`;
-                    // Nilai default: Ambil nilai lama, atau isi 0
                     input.value = (oldValues[i] && oldValues[i][j] !== undefined) ? oldValues[i][j] : 0;
                     container.appendChild(input);
                 }
             }
         }
 
-        // 4. Mengambil Nilai dari Grid ke dalam bentuk Array 2D JavaScript
         function getMatrix(containerId, rows, cols) {
             let mat = [];
             for (let i = 0; i < rows; i++) {
@@ -760,15 +1009,12 @@
             return mat;
         }
 
-        // 5. Menampilkan Array 2D Hasil ke HTML
         function printResult(mat) {
             const rows = mat.length;
             const cols = mat[0].length;
             let html = `<div class="matrix-grid" style="grid-template-columns: repeat(${cols}, 1fr); background: transparent; border: none;">`;
-            
             for (let i = 0; i < rows; i++) {
                 for (let j = 0; j < cols; j++) {
-                    // Cek jika nilainya mendekati 0 karena masalah presisi floating point JS (misal 1e-16)
                     let val = Math.abs(mat[i][j]) < 1e-10 ? 0 : mat[i][j];
                     let displayVal = Number.isInteger(val) ? val : parseFloat(val.toFixed(3));
                     html += `<div style="background: white; border: 1px solid var(--border-color); padding: 10px 15px; border-radius: 6px; text-align: center; font-weight: bold; min-width: 50px;">${displayVal}</div>`;
@@ -783,14 +1029,12 @@
             document.getElementById('matrixResult').innerHTML = `<span style="color: ${color}; font-size: 1.2rem; text-align: center;">${msg}</span>`;
         }
 
-        // --- ALGORITMA MATEMATIKA ---
         function getDeterminant(M) {
             let n = M.length;
             if (n === 1) return M[0][0];
             if (n === 2) return (M[0][0]*M[1][1]) - (M[0][1]*M[1][0]);
             let det = 0;
             for (let i = 0; i < n; i++) {
-                // Membuat submatriks dengan menghapus baris 0 dan kolom i
                 let subMatrix = M.slice(1).map(row => row.filter((_, j) => j !== i));
                 det += M[0][i] * Math.pow(-1, i) * getDeterminant(subMatrix);
             }
@@ -799,10 +1043,7 @@
 
         function getInverse(M) {
             let n = M.length;
-            let I = [];
-            let C = [];
-            
-            // Membuat matriks Identitas (I) dan menyalin Matriks awal (C)
+            let I = []; let C = [];
             for (let i = 0; i < n; i++) {
                 I[i] = []; C[i] = [];
                 for (let j = 0; j < n; j++) {
@@ -810,16 +1051,14 @@
                     C[i][j] = M[i][j];
                 }
             }
-            
-            // Eliminasi Gauss-Jordan
             for (let i = 0; i < n; i++) {
                 let e = C[i][i];
-                if (Math.abs(e) < 1e-10) { // Mencari baris pengganti jika elemen diagonal = 0
+                if (Math.abs(e) < 1e-10) { 
                     let swapRow = -1;
                     for (let k = i + 1; k < n; k++) {
                         if (Math.abs(C[k][i]) > 1e-10) { swapRow = k; break; }
                     }
-                    if (swapRow === -1) return null; // Singular
+                    if (swapRow === -1) return null;
                     let tempC = C[i]; C[i] = C[swapRow]; C[swapRow] = tempC;
                     let tempI = I[i]; I[i] = I[swapRow]; I[swapRow] = tempI;
                     e = C[i][i];
@@ -840,12 +1079,10 @@
             return I;
         }
 
-        // 6. Eksekusi Utama saat Tombol "Hitung Hasil" diklik
         function calculateMatrix() {
             let rA = parseInt(document.getElementById('rowsA').value);
             let cA = parseInt(document.getElementById('colsA').value);
             let A = getMatrix('gridA', rA, cA);
-
             try {
                 if (currentOp === 'add' || currentOp === 'sub') {
                     let rB = parseInt(document.getElementById('rowsB').value);
@@ -859,8 +1096,7 @@
                         }
                     }
                     printResult(res);
-                } 
-                else if (currentOp === 'mul') {
+                } else if (currentOp === 'mul') {
                     let rB = parseInt(document.getElementById('rowsB').value);
                     let cB = parseInt(document.getElementById('colsB').value);
                     let B = getMatrix('gridB', rB, cB);
@@ -874,13 +1110,11 @@
                         }
                     }
                     printResult(res);
-                }
-                else if (currentOp === 'det') {
+                } else if (currentOp === 'det') {
                     let det = getDeterminant(A);
                     let displayDet = Number.isInteger(det) ? det : parseFloat(det.toFixed(4));
                     printMessage(`Determinan = <strong>${displayDet}</strong>`);
-                }
-                else if (currentOp === 'inv') {
+                } else if (currentOp === 'inv') {
                     let inv = getInverse(A);
                     if (!inv) {
                         printMessage("⚠️ Matriks Singular. Determinan = 0 sehingga tidak memiliki invers.", true);
@@ -892,12 +1126,11 @@
                 printMessage("Terjadi kesalahan komputasi.", true);
             }
         }
-
-        // Inisialisasi awal saat halaman dimuat
         updateDimensions();
 
+
         // ==========================================
-        // --- PLOTTING GRAFIK (Tetap Sesuai Asli) ---
+        // --- PLOTTING GRAFIK ---
         // ==========================================
         const canvas = document.getElementById('graphCanvas');
         const ctx = canvas.getContext('2d');
@@ -906,24 +1139,17 @@
 
         let range = 10;
         let scale;
-        let offsetX = 0;
-        let offsetY = 0;
-        
+        let offsetX = 0; let offsetY = 0;
         let isDragging = false;
-        let startX = 0;
-        let startY = 0;
-        let initialPinchDistance = null;
-        let initialRange = range;
+        let startX = 0; let startY = 0;
+        let initialPinchDistance = null; let initialRange = range;
 
-        const MIN_RANGE = 0.5;
-        const MAX_RANGE = 100;
-
+        const MIN_RANGE = 0.5; const MAX_RANGE = 100;
         const funcType = document.getElementById('funcType');
         const valA = document.getElementById('valA');
         const valB = document.getElementById('valB');
         const valC = document.getElementById('valC');
         const valN = document.getElementById('valN');
-        
         const formulaDisplay = document.getElementById('formula');
         const cControl = document.getElementById('cControl');
         const nControl = document.getElementById('nControl');
@@ -933,53 +1159,29 @@
         function syncControl(sliderId, numId) {
             const slider = document.getElementById(sliderId);
             const numInput = document.getElementById(numId);
-            
-            slider.addEventListener('input', () => {
-                numInput.value = slider.value;
-                drawGraph();
-            });
-            
+            slider.addEventListener('input', () => { numInput.value = slider.value; drawGraph(); });
             numInput.addEventListener('input', () => {
-                if (numInput.value !== "") {
-                    slider.value = numInput.value;
-                }
+                if (numInput.value !== "") slider.value = numInput.value;
                 drawGraph();
             });
         }
 
-        syncControl('a', 'valA');
-        syncControl('b', 'valB');
-        syncControl('c', 'valC');
-        syncControl('n', 'valN');
+        syncControl('a', 'valA'); syncControl('b', 'valB'); syncControl('c', 'valC'); syncControl('n', 'valN');
         funcType.addEventListener('change', drawGraph);
 
         function initTable() {
             const rowX = document.getElementById('rowX');
             const rowY = document.getElementById('rowY');
-
-            rowX.innerHTML = '<th>x</th>';
-            rowY.innerHTML = '<th>y</th>';
-
+            rowX.innerHTML = '<th>x</th>'; rowY.innerHTML = '<th>y</th>';
             for (let i = 0; i < xPoints.length; i++) {
                 let tdX = document.createElement('td');
                 let inputX = document.createElement('input');
-                inputX.type = 'number';
-                inputX.className = 'x-input';
-                inputX.value = xPoints[i];
-                
+                inputX.type = 'number'; inputX.className = 'x-input'; inputX.value = xPoints[i];
                 inputX.addEventListener('input', (e) => {
-                    let val = parseFloat(e.target.value);
-                    xPoints[i] = val;
-                    drawGraph();      
+                    let val = parseFloat(e.target.value); xPoints[i] = val; drawGraph();      
                 });
-
-                tdX.appendChild(inputX);
-                rowX.appendChild(tdX);
-
-                let tdY = document.createElement('td');
-                tdY.id = `yVal${i}`;
-                tdY.textContent = '-';
-                rowY.appendChild(tdY);
+                tdX.appendChild(inputX); rowX.appendChild(tdX);
+                let tdY = document.createElement('td'); tdY.id = `yVal${i}`; tdY.textContent = '-'; rowY.appendChild(tdY);
             }
         }
 
@@ -998,53 +1200,26 @@
         }
 
         function drawAxes() {
-            ctx.strokeStyle = '#e2e8f0'; 
-            ctx.lineWidth = 1;
-            ctx.font = '11px Inter, sans-serif';
-            ctx.fillStyle = '#64748b'; 
-
+            ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1; ctx.font = '11px Inter, sans-serif'; ctx.fillStyle = '#64748b'; 
             let step = 1;
-            if (range > 50) step = 10;
-            else if (range > 20) step = 5;
-            else if (range > 10) step = 2;
-            else if (range <= 1) step = 0.1;     
-            else if (range <= 2.5) step = 0.25;  
-            else if (range < 5) step = 0.5;
-
-            let centerX = width / 2 + offsetX;
-            let centerY = height / 2 + offsetY;
-
-            let minMathX = (-centerX) / scale;
-            let maxMathX = (width - centerX) / scale;
-            let minMathY = (centerY - height) / scale;
-            let maxMathY = (centerY) / scale;
-
-            let startXGrid = Math.floor(minMathX / step) * step;
-            let endXGrid = Math.ceil(maxMathX / step) * step;
-            let startYGrid = Math.floor(minMathY / step) * step;
-            let endYGrid = Math.ceil(maxMathY / step) * step;
+            if (range > 50) step = 10; else if (range > 20) step = 5; else if (range > 10) step = 2; else if (range <= 1) step = 0.1; else if (range <= 2.5) step = 0.25; else if (range < 5) step = 0.5;
+            let centerX = width / 2 + offsetX; let centerY = height / 2 + offsetY;
+            let minMathX = (-centerX) / scale; let maxMathX = (width - centerX) / scale;
+            let minMathY = (centerY - height) / scale; let maxMathY = (centerY) / scale;
+            let startXGrid = Math.floor(minMathX / step) * step; let endXGrid = Math.ceil(maxMathX / step) * step;
+            let startYGrid = Math.floor(minMathY / step) * step; let endYGrid = Math.ceil(maxMathY / step) * step;
 
             for (let i = startXGrid; i <= endXGrid; i += step) {
                 let px = centerX + (i * scale);
                 ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, height); ctx.stroke();
-                if (Math.abs(i) > 0.0001) {
-                    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
-                    ctx.fillText(Number(i.toFixed(2)), px, Math.max(5, Math.min(height - 20, centerY + 5)));
-                }
+                if (Math.abs(i) > 0.0001) { ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.fillText(Number(i.toFixed(2)), px, Math.max(5, Math.min(height - 20, centerY + 5))); }
             }
-
             for (let i = startYGrid; i <= endYGrid; i += step) {
                 let py = centerY - (i * scale);
                 ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(width, py); ctx.stroke();
-                if (Math.abs(i) > 0.0001) {
-                    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
-                    ctx.fillText(Number(i.toFixed(2)), Math.max(5, Math.min(width - 5, centerX - 5)), py);
-                }
+                if (Math.abs(i) > 0.0001) { ctx.textAlign = 'right'; ctx.textBaseline = 'middle'; ctx.fillText(Number(i.toFixed(2)), Math.max(5, Math.min(width - 5, centerX - 5)), py); }
             }
-
-            ctx.textAlign = 'right'; ctx.textBaseline = 'top';
-            ctx.fillText('0', centerX - 5, centerY + 5);
-
+            ctx.textAlign = 'right'; ctx.textBaseline = 'top'; ctx.fillText('0', centerX - 5, centerY + 5);
             ctx.strokeStyle = '#0f172a'; ctx.lineWidth = 1.5;
             ctx.beginPath(); ctx.moveTo(centerX, 0); ctx.lineTo(centerX, height); ctx.stroke(); 
             ctx.beginPath(); ctx.moveTo(0, centerY); ctx.lineTo(width, centerY); ctx.stroke(); 
@@ -1053,325 +1228,522 @@
         function drawGraph() {
             scale = width / (range * 2);
             const type = funcType.value;
-            const a = parseFloat(valA.value) || 0;
-            const b = parseFloat(valB.value) || 0;
-            const c = parseFloat(valC.value) || 0;
-            const n = parseInt(valN.value) || 1;
+            const a = parseFloat(valA.value) || 0; const b = parseFloat(valB.value) || 0; const c = parseFloat(valC.value) || 0; const n = parseInt(valN.value) || 1;
 
-            if (type === 'linear') {
-                cControl.style.display = 'none'; nControl.style.display = 'none';
-                formulaDisplay.innerHTML = `y = ${a}x ${b >= 0 ? '+' : '-'} ${Math.abs(b)}`;
-            } else if (type === 'quadratic') {
-                cControl.style.display = 'block'; nControl.style.display = 'none';
-                formulaDisplay.innerHTML = `y = ${a}x² ${b >= 0 ? '+' : '-'} ${Math.abs(b)}x ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`;
-            } else if (type === 'rational') {
-                cControl.style.display = 'block'; nControl.style.display = 'block'; 
-                formulaDisplay.innerHTML = `y = ${a} / (x ${b >= 0 ? '-' : '+'} ${Math.abs(b)})<sup>${n}</sup> ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`;
-            } else if (type === 'exponential') {
-                cControl.style.display = 'block'; nControl.style.display = 'none';
-                formulaDisplay.innerHTML = `y = ${a}<sup>${b}x</sup> ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`;
-            } else if (type === 'absolute') {
-                cControl.style.display = 'block'; nControl.style.display = 'none';
-                formulaDisplay.innerHTML = `y = ${a}|x ${b >= 0 ? '-' : '+'} ${Math.abs(b)}| ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`;
-            } else if (type === 'step-down') {
-                cControl.style.display = 'block'; nControl.style.display = 'none';
-                formulaDisplay.innerHTML = `y = ${a}⌊x ${b >= 0 ? '-' : '+'} ${Math.abs(b)}⌋ ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`;
-            } else if (type === 'step-up') {
-                cControl.style.display = 'block'; nControl.style.display = 'none';
-                formulaDisplay.innerHTML = `y = ${a}⌈x ${b >= 0 ? '-' : '+'} ${Math.abs(b)}⌉ ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`;
-            }
+            if (type === 'linear') { cControl.style.display = 'none'; nControl.style.display = 'none'; formulaDisplay.innerHTML = `y = ${a}x ${b >= 0 ? '+' : '-'} ${Math.abs(b)}`; }
+            else if (type === 'quadratic') { cControl.style.display = 'block'; nControl.style.display = 'none'; formulaDisplay.innerHTML = `y = ${a}x² ${b >= 0 ? '+' : '-'} ${Math.abs(b)}x ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`; }
+            else if (type === 'rational') { cControl.style.display = 'block'; nControl.style.display = 'block'; formulaDisplay.innerHTML = `y = ${a} / (x ${b >= 0 ? '-' : '+'} ${Math.abs(b)})<sup>${n}</sup> ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`; }
+            else if (type === 'exponential') { cControl.style.display = 'block'; nControl.style.display = 'none'; formulaDisplay.innerHTML = `y = ${a}<sup>${b}x</sup> ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`; }
+            else if (type === 'absolute') { cControl.style.display = 'block'; nControl.style.display = 'none'; formulaDisplay.innerHTML = `y = ${a}|x ${b >= 0 ? '-' : '+'} ${Math.abs(b)}| ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`; }
+            else if (type === 'step-down') { cControl.style.display = 'block'; nControl.style.display = 'none'; formulaDisplay.innerHTML = `y = ${a}⌊x ${b >= 0 ? '-' : '+'} ${Math.abs(b)}⌋ ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`; }
+            else if (type === 'step-up') { cControl.style.display = 'block'; nControl.style.display = 'none'; formulaDisplay.innerHTML = `y = ${a}⌈x ${b >= 0 ? '-' : '+'} ${Math.abs(b)}⌉ ${c >= 0 ? '+' : '-'} ${Math.abs(c)}`; }
 
-            ctx.clearRect(0, 0, width, height);
-            drawAxes(); 
-
-            let centerX = width / 2 + offsetX;
-            let centerY = height / 2 + offsetY;
-
+            ctx.clearRect(0, 0, width, height); drawAxes(); 
+            let centerX = width / 2 + offsetX; let centerY = height / 2 + offsetY;
             ctx.beginPath(); ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5;
             let prevY = null; let prevStep = null;
 
             for (let px = 0; px <= width; px++) {
-                const mathX = (px - centerX) / scale;
-                let mathY = null;
-
+                const mathX = (px - centerX) / scale; let mathY = null;
                 if (type === 'linear') mathY = a * mathX + b;
                 else if (type === 'quadratic') mathY = a * Math.pow(mathX, 2) + b * mathX + c;
-                else if (type === 'rational') {
-                    if (Math.abs(mathX - b) <= 0.05) { prevY = null; continue; }
-                    mathY = a / Math.pow((mathX - b), n) + c;
-                } else if (type === 'exponential') mathY = (a ** (b * mathX)) + c;
+                else if (type === 'rational') { if (Math.abs(mathX - b) <= 0.05) { prevY = null; continue; } mathY = a / Math.pow((mathX - b), n) + c; }
+                else if (type === 'exponential') mathY = (a ** (b * mathX)) + c;
                 else if (type === 'absolute') mathY = a * Math.abs(mathX - b) + c;
                 else if (type === 'step-down' || type === 'step-up') {
                     let currentStep = (type === 'step-down') ? Math.floor(mathX - b) : Math.ceil(mathX - b);
                     if (prevStep !== null && currentStep !== prevStep) prevY = null;
-                    prevStep = currentStep;
-                    mathY = a * currentStep + c;
+                    prevStep = currentStep; mathY = a * currentStep + c;
                 }
-
                 if (mathY !== null) {
                     const py = centerY - (mathY * scale);
-                    if (px === 0 || prevY === null) ctx.moveTo(px, py); 
-                    else ctx.lineTo(px, py); 
+                    if (px === 0 || prevY === null) ctx.moveTo(px, py); else ctx.lineTo(px, py); 
                     prevY = py;
                 }
             }
             ctx.stroke();
 
             for (let i = 0; i < xPoints.length; i++) {
-                let x = xPoints[i];
-                let tdY = document.getElementById(`yVal${i}`);
+                let x = xPoints[i]; let tdY = document.getElementById(`yVal${i}`);
                 if (!tdY) continue;
-                
                 if (isNaN(x)) { tdY.textContent = '-'; continue; }
                 let y = hitungY(x, type, a, b, c, n);
-
-                if (y === 'undf' || isNaN(y)) {
-                    tdY.textContent = 'tak terdefinisi';
-                } else {
+                if (y === 'undf' || isNaN(y)) { tdY.textContent = 'tak terdefinisi'; }
+                else {
                     tdY.textContent = Number.isInteger(y) ? y : parseFloat(y.toFixed(2));
-                    let px = centerX + (x * scale);
-                    let py = centerY - (y * scale);
+                    let px = centerX + (x * scale); let py = centerY - (y * scale);
                     if (px >= 0 && px <= width && py >= 0 && py <= height) {
                         ctx.beginPath(); ctx.arc(px, py, 5, 0, 2 * Math.PI);
-                        ctx.fillStyle = '#d93025'; ctx.fill();
-                        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke();
+                        ctx.fillStyle = '#d93025'; ctx.fill(); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke();
                     }
                 }
             }
         }
 
-        // --- INTERAKSI KANVAS ---
-        canvas.addEventListener('mousedown', (e) => {
-            isDragging = true; startX = e.clientX - offsetX; startY = e.clientY - offsetY;
-        });
-        window.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            offsetX = e.clientX - startX; offsetY = e.clientY - startY; drawGraph();
-        });
+        canvas.addEventListener('mousedown', (e) => { isDragging = true; startX = e.clientX - offsetX; startY = e.clientY - offsetY; });
+        window.addEventListener('mousemove', (e) => { if (!isDragging) return; offsetX = e.clientX - startX; offsetY = e.clientY - startY; drawGraph(); });
         window.addEventListener('mouseup', () => { isDragging = false; });
         canvas.addEventListener('touchstart', (e) => {
-            if (e.touches.length === 1) {
-                isDragging = true; startX = e.touches[0].clientX - offsetX; startY = e.touches[0].clientY - offsetY;
-            } else if (e.touches.length === 2) {
-                isDragging = false; initialPinchDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY); initialRange = range;
-            }
+            if (e.touches.length === 1) { isDragging = true; startX = e.touches[0].clientX - offsetX; startY = e.touches[0].clientY - offsetY; }
+            else if (e.touches.length === 2) { isDragging = false; initialPinchDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY); initialRange = range; }
         });
         canvas.addEventListener('touchmove', (e) => {
-            if (isDragging && e.touches.length === 1) {
-                offsetX = e.touches[0].clientX - startX; offsetY = e.touches[0].clientY - startY; drawGraph();
-            } else if (e.touches.length === 2 && initialPinchDistance) {
+            if (isDragging && e.touches.length === 1) { offsetX = e.touches[0].clientX - startX; offsetY = e.touches[0].clientY - startY; drawGraph(); }
+            else if (e.touches.length === 2 && initialPinchDistance) {
                 const factor = initialPinchDistance / Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
                 range = Math.max(MIN_RANGE, Math.min(MAX_RANGE, initialRange * factor)); drawGraph();
             }
         });
         canvas.addEventListener('touchend', () => { isDragging = false; initialPinchDistance = null; });
-        canvas.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            range = Math.max(MIN_RANGE, Math.min(MAX_RANGE, range * (e.deltaY > 0 ? 1.1 : 0.9))); drawGraph();
-        }, { passive: false });
+        canvas.addEventListener('wheel', (e) => { e.preventDefault(); range = Math.max(MIN_RANGE, Math.min(MAX_RANGE, range * (e.deltaY > 0 ? 1.1 : 0.9))); drawGraph(); }, { passive: false });
 
         initTable(); drawGraph();
 
         // ==========================================
-        // --- TRIGONOMETRI (Visualisasi Gelombang) ---
+        // --- TRIGONOMETRI ---
         // ==========================================
-        const tCanvas = document.getElementById('trigoCanvas');
-        const tCtx = tCanvas.getContext('2d');
-        const tWidth = tCanvas.width;
-        const tHeight = tCanvas.height;
-
-        let tRange = 13; // Rentang default (skala radian)
-        let tOffsetX = 0;
-        let tOffsetY = 0;
-        let tIsDragging = false;
-        let tStartX = 0;
-        let tStartY = 0;
+        const tCanvas = document.getElementById('trigoCanvas'); const tCtx = tCanvas.getContext('2d');
+        const tWidth = tCanvas.width; const tHeight = tCanvas.height;
+        let tRange = 13; let tOffsetX = 0; let tOffsetY = 0; let tIsDragging = false; let tStartX = 0; let tStartY = 0;
 
         const trigoType = document.getElementById('trigoType');
-        const valAmp = document.getElementById('valAmp');
-        const valK = document.getElementById('valK');
-        const valPhase = document.getElementById('valPhase');
-        const valC_trigo = document.getElementById('valC_trigo');
+        const valAmp = document.getElementById('valAmp'); const valK = document.getElementById('valK');
+        const valPhase = document.getElementById('valPhase'); const valC_trigo = document.getElementById('valC_trigo');
         const trigoFormula = document.getElementById('trigoFormula');
 
-        // Sync slider dan angka khusus trigonometri
         function syncTrigoControl(sliderId, numId) {
-            const slider = document.getElementById(sliderId);
-            const numInput = document.getElementById(numId);
-            
-            slider.addEventListener('input', () => {
-                numInput.value = slider.value;
-                drawTrigoGraph();
-            });
-            
-            numInput.addEventListener('input', () => {
-                if (numInput.value !== "") slider.value = numInput.value;
-                drawTrigoGraph();
-            });
+            const slider = document.getElementById(sliderId); const numInput = document.getElementById(numId);
+            slider.addEventListener('input', () => { numInput.value = slider.value; drawTrigoGraph(); });
+            numInput.addEventListener('input', () => { if (numInput.value !== "") slider.value = numInput.value; drawTrigoGraph(); });
         }
 
-        syncTrigoControl('amp', 'valAmp');
-        syncTrigoControl('k', 'valK');
-        syncTrigoControl('phase', 'valPhase');
-        syncTrigoControl('c_trigo', 'valC_trigo');
+        syncTrigoControl('amp', 'valAmp'); syncTrigoControl('k', 'valK'); syncTrigoControl('phase', 'valPhase'); syncTrigoControl('c_trigo', 'valC_trigo');
         trigoType.addEventListener('change', drawTrigoGraph);
 
-        // Gambar Sumbu X dengan label Pi (π) khusus trigonometri
         function drawTrigoAxes(ctx, scale, centerX, centerY) {
-            ctx.strokeStyle = '#e2e8f0'; 
-            ctx.lineWidth = 1;
-            ctx.font = '11px Inter, sans-serif';
-            ctx.fillStyle = '#64748b'; 
-
-            let step = Math.PI / 2; // Grid vertikal setiap 90 derajat
-            let minMathX = (-centerX) / scale;
-            let maxMathX = (tWidth - centerX) / scale;
-            
-            let startXGrid = Math.floor(minMathX / step) * step;
-            let endXGrid = Math.ceil(maxMathX / step) * step;
+            ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1; ctx.font = '11px Inter, sans-serif'; ctx.fillStyle = '#64748b'; 
+            let step = Math.PI / 2; let minMathX = (-centerX) / scale; let maxMathX = (tWidth - centerX) / scale;
+            let startXGrid = Math.floor(minMathX / step) * step; let endXGrid = Math.ceil(maxMathX / step) * step;
 
             for (let i = startXGrid; i <= endXGrid; i += step) {
                 let px = centerX + (i * scale);
                 ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, tHeight); ctx.stroke();
-                
                 if (Math.abs(i) > 0.0001) {
-                    let label = '';
-                    let mult = Math.round(i / (Math.PI / 2));
-                    if (mult === 1) label = 'π/2';
-                    else if (mult === -1) label = '-π/2';
-                    else if (mult === 2) label = 'π';
-                    else if (mult === -2) label = '-π';
-                    else if (mult % 2 === 0) label = (mult/2) + 'π';
-                    else label = mult + 'π/2';
-                    
-                    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
-                    ctx.fillText(label, px, Math.max(5, Math.min(tHeight - 20, centerY + 5)));
+                    let label = ''; let mult = Math.round(i / (Math.PI / 2));
+                    if (mult === 1) label = 'π/2'; else if (mult === -1) label = '-π/2'; else if (mult === 2) label = 'π'; else if (mult === -2) label = '-π';
+                    else if (mult % 2 === 0) label = (mult/2) + 'π'; else label = mult + 'π/2';
+                    ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.fillText(label, px, Math.max(5, Math.min(tHeight - 20, centerY + 5)));
                 }
             }
-            
-            // Grid horizontal (Sumbu Y biasa)
-            let minMathY = (centerY - tHeight) / scale;
-            let maxMathY = (centerY) / scale;
+            let minMathY = (centerY - tHeight) / scale; let maxMathY = (centerY) / scale;
             for (let i = Math.floor(minMathY); i <= Math.ceil(maxMathY); i += 1) {
                 let py = centerY - (i * scale);
                 ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(tWidth, py); ctx.stroke();
-                if (Math.abs(i) > 0.0001) {
-                    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
-                    ctx.fillText(i, Math.max(5, Math.min(tWidth - 5, centerX - 5)), py);
-                }
+                if (Math.abs(i) > 0.0001) { ctx.textAlign = 'right'; ctx.textBaseline = 'middle'; ctx.fillText(i, Math.max(5, Math.min(tWidth - 5, centerX - 5)), py); }
             }
-
-            // Sumbu Utama
-            ctx.strokeStyle = '#0f172a'; ctx.lineWidth = 1.5;
-            ctx.beginPath(); ctx.moveTo(centerX, 0); ctx.lineTo(centerX, tHeight); ctx.stroke(); 
+            ctx.strokeStyle = '#0f172a'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(centerX, 0); ctx.lineTo(centerX, tHeight); ctx.stroke(); 
             ctx.beginPath(); ctx.moveTo(0, centerY); ctx.lineTo(tWidth, centerY); ctx.stroke(); 
-            
-            ctx.textAlign = 'right'; ctx.textBaseline = 'top';
-            ctx.fillText('0', centerX - 5, centerY + 5);
+            ctx.textAlign = 'right'; ctx.textBaseline = 'top'; ctx.fillText('0', centerX - 5, centerY + 5);
         }
 
-        // Gambar Gelombang Utama
         function drawTrigoGraph() {
-            let tScale = tWidth / tRange;
-            let type = trigoType.value;
-            let A = parseFloat(valAmp.value) || 0;
-            let k = parseFloat(valK.value) || 1;
-            if (k === 0) k = 1; // Cegah error jika k=0
-            let phaseDeg = parseFloat(valPhase.value) || 0;
-            let C = parseFloat(valC_trigo.value) || 0;
-            
+            let tScale = tWidth / tRange; let type = trigoType.value;
+            let A = parseFloat(valAmp.value) || 0; let k = parseFloat(valK.value) || 1; if (k === 0) k = 1;
+            let phaseDeg = parseFloat(valPhase.value) || 0; let C = parseFloat(valC_trigo.value) || 0;
             let phaseRad = phaseDeg * (Math.PI / 180);
 
-            // Update UI Teks Formula
             let phaseText = phaseDeg === 0 ? "x" : `(x ${phaseDeg > 0 ? '-' : '+'} ${Math.abs(phaseDeg)}°)`;
-            let kText = k === 1 ? "" : k;
-            let cText = C === 0 ? "" : (C > 0 ? ` + ${C}` : ` - ${Math.abs(C)}`);
+            let kText = k === 1 ? "" : k; let cText = C === 0 ? "" : (C > 0 ? ` + ${C}` : ` - ${Math.abs(C)}`);
             trigoFormula.innerHTML = `y = ${A} ${type}(${kText}${phaseText})${cText}`;
 
-            // Update UI Informasi Periode & Max/Min
-            let period = 360 / Math.abs(k);
-            let piPeriod = 2 / Math.abs(k);
-            
+            let period = 360 / Math.abs(k); let piPeriod = 2 / Math.abs(k);
             if(type === 'tan') {
                 document.getElementById('trigoPeriod').innerText = `${180 / Math.abs(k)}° (${1/Math.abs(k)}π)`;
-                document.getElementById('trigoMax').innerText = '∞ (Tak Terhingga)';
-                document.getElementById('trigoMin').innerText = '-∞ (Tak Terhingga)';
+                document.getElementById('trigoMax').innerText = '∞ (Tak Terhingga)'; document.getElementById('trigoMin').innerText = '-∞ (Tak Terhingga)';
             } else {
                 document.getElementById('trigoPeriod').innerText = `${period}° (${piPeriod}π)`;
-                document.getElementById('trigoMax').innerText = A >= 0 ? (A + C) : (Math.abs(A) + C);
-                document.getElementById('trigoMin').innerText = A >= 0 ? (-A + C) : (-Math.abs(A) + C);
+                document.getElementById('trigoMax').innerText = A >= 0 ? (A + C) : (Math.abs(A) + C); document.getElementById('trigoMin').innerText = A >= 0 ? (-A + C) : (-Math.abs(A) + C);
             }
 
-            tCtx.clearRect(0, 0, tWidth, tHeight);
-            let centerX = tWidth / 2 + tOffsetX;
-            let centerY = tHeight / 2 + tOffsetY;
-
+            tCtx.clearRect(0, 0, tWidth, tHeight); let centerX = tWidth / 2 + tOffsetX; let centerY = tHeight / 2 + tOffsetY;
             drawTrigoAxes(tCtx, tScale, centerX, centerY);
-
-            tCtx.beginPath(); 
-            tCtx.strokeStyle = '#d93025'; 
-            tCtx.lineWidth = 2.5;
-            let prevY = null;
+            tCtx.beginPath(); tCtx.strokeStyle = '#d93025'; tCtx.lineWidth = 2.5; let prevY = null;
 
             for (let px = 0; px <= tWidth; px++) {
-                const mathX = (px - centerX) / tScale;
-                let mathY = null;
-                let angle = k * (mathX - phaseRad);
-
-                if (type === 'sin') mathY = A * Math.sin(angle) + C;
-                else if (type === 'cos') mathY = A * Math.cos(angle) + C;
-                else if (type === 'tan') mathY = A * Math.tan(angle) + C;
-
+                const mathX = (px - centerX) / tScale; let mathY = null; let angle = k * (mathX - phaseRad);
+                if (type === 'sin') mathY = A * Math.sin(angle) + C; else if (type === 'cos') mathY = A * Math.cos(angle) + C; else if (type === 'tan') mathY = A * Math.tan(angle) + C;
                 const py = centerY - (mathY * tScale);
                 
-                // Mencegah garis asimtot menyambung lurus vertikal pada grafik Tangen
-                if (type === 'tan' && prevY !== null && Math.abs((py - prevY)) > tHeight/2) {
-                    tCtx.stroke();
-                    tCtx.beginPath();
-                }
-
-                if (px === 0 || (type === 'tan' && prevY !== null && Math.abs((py - prevY)) > tHeight/2)) {
-                    tCtx.moveTo(px, py);
-                } else {
-                    tCtx.lineTo(px, py);
-                }
+                if (type === 'tan' && prevY !== null && Math.abs((py - prevY)) > tHeight/2) { tCtx.stroke(); tCtx.beginPath(); }
+                if (px === 0 || (type === 'tan' && prevY !== null && Math.abs((py - prevY)) > tHeight/2)) { tCtx.moveTo(px, py); } else { tCtx.lineTo(px, py); }
                 prevY = py;
             }
             tCtx.stroke();
         }
 
-        // Interaksi Geser (Pan) Khusus Canvas Trigonometri
-        tCanvas.addEventListener('mousedown', (e) => {
-            tIsDragging = true; 
-            tStartX = e.clientX - tOffsetX; 
-            tStartY = e.clientY - tOffsetY;
-        });
-        window.addEventListener('mousemove', (e) => {
-            if (!tIsDragging) return;
-            tOffsetX = e.clientX - tStartX; 
-            tOffsetY = e.clientY - tStartY; 
-            drawTrigoGraph();
-        });
+        tCanvas.addEventListener('mousedown', (e) => { tIsDragging = true; tStartX = e.clientX - tOffsetX; tStartY = e.clientY - tOffsetY; });
+        window.addEventListener('mousemove', (e) => { if (!tIsDragging) return; tOffsetX = e.clientX - tStartX; tOffsetY = e.clientY - tStartY; drawTrigoGraph(); });
         window.addEventListener('mouseup', () => { tIsDragging = false; });
-        tCanvas.addEventListener('touchstart', (e) => {
-            if (e.touches.length === 1) {
-                tIsDragging = true; 
-                tStartX = e.touches[0].clientX - tOffsetX; 
-                tStartY = e.touches[0].clientY - tOffsetY;
-            }
-        });
-        tCanvas.addEventListener('touchmove', (e) => {
-            if (tIsDragging && e.touches.length === 1) {
-                e.preventDefault(); 
-                tOffsetX = e.touches[0].clientX - tStartX; 
-                tOffsetY = e.touches[0].clientY - tStartY; 
-                drawTrigoGraph();
-            }
-        }, {passive: false});
+        tCanvas.addEventListener('touchstart', (e) => { if (e.touches.length === 1) { tIsDragging = true; tStartX = e.touches[0].clientX - tOffsetX; tStartY = e.touches[0].clientY - tOffsetY; } });
+        tCanvas.addEventListener('touchmove', (e) => { if (tIsDragging && e.touches.length === 1) { e.preventDefault(); tOffsetX = e.touches[0].clientX - tStartX; tOffsetY = e.touches[0].clientY - tStartY; drawTrigoGraph(); } }, {passive: false});
         tCanvas.addEventListener('touchend', () => { tIsDragging = false; });
-
-        // Panggil render pertama kali untuk menyiapkan canvas
         drawTrigoGraph();
+
+        // ==========================================
+        // --- SIMULASI VEKTOR KETAPEL ---
+        // ==========================================
+        const vCanvas = document.getElementById('simCanvas');
+        const vCtx = vCanvas.getContext('2d');
+
+        let vScale = 8;
+        let vOrigin = { x: 80, y: 360 }; 
+        let v_vx = 24.7;
+        let v_vy = 24.7;
+        let v_scalarK = 1.0;
+        let v_wind = { x: 0, y: 0 };
+        let v_gravity = 9.8;
+        let vIsDragging = false;
+        let vDragPos = { x: 0, y: 0 };
+        let v_isFlying = false;
+        let v_proj = { x: 0, y: 0, vx: 0, vy: 0 };
+        let v_flightPath = [];
+        let v_particles = [];
+        let v_hitTarget = false;
+        let v_hitWall = false;
+        let v_audioCtx = null;
+        let v_soundEnabled = true;
+
+        const v_levels = [
+            {
+                id: 1, title: "Level 1: Dasar Vektor",
+                desc: "Pelajari hubungan besaran (|v|) dan sudut (θ). Tarik ketapel dan hantam target tanpa adanya angin atau rintangan.",
+                target: { x: 65, y: 15, radius: 4 }, obstacle: null, wind: { x: 0, y: 0 }, hint: "Gunakan sudut mendekati 45° untuk memperoleh jangkauan horizontal optimal."
+            },
+            {
+                id: 2, title: "Level 2: Komponen Vektor (vx & vy)",
+                desc: "Sebuah dinding tinggi menghadang! Tingkatkan komponen vertikal (vy) agar lintasan peluru melambung cukup tinggi melampaui dinding.",
+                target: { x: 70, y: 10, radius: 4 }, obstacle: { x: 35, width: 4, height: 26 }, wind: { x: 0, y: 0 }, hint: "Komponen vy yang besar akan memberikan ketinggian puncak yang lebih tinggi."
+            },
+            {
+                id: 3, title: "Level 3: Penjumlahan Vektor (Efek Angin)",
+                desc: "Angin bertiup ke arah kiri (w_x < 0). Perhitungkan Vektor Resultan (v_total = v + w) agar peluru tidak jatuh terlalu pendek.",
+                target: { x: 60, y: 15, radius: 4 }, obstacle: { x: 30, width: 3, height: 16 }, wind: { x: -12, y: 2 }, hint: "Karena angin melawan arah gerak (-wx), kamu harus memperbesar komponen horizontal (vx) sebagai kompensasi."
+            },
+            {
+                id: 4, title: "Level 4: Sandbox (Mode Bebas)",
+                desc: "Eksperimen bebas! Atur besaran gaya, pengali skalar k, kekuatan angin, serta gravitasi untuk mengamati perilaku lintasan vektor.",
+                target: { x: 65, y: 20, radius: 4 }, obstacle: { x: 38, width: 4, height: 20 }, wind: { x: -10, y: 0 }, sandbox: true, hint: "Gunakan tombol Pengali Skalar (1.5x / 2.0x) untuk melipatgandakan panjang vektor gaya secara instan!"
+            }
+        ];
+
+        let v_currentLevelIdx = 0;
+
+        function v_initAudio() { if (!v_audioCtx) v_audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+
+        function v_playSound(type) {
+            if (!v_soundEnabled) return;
+            v_initAudio(); if (!v_audioCtx) return;
+            const now = v_audioCtx.currentTime; const osc = v_audioCtx.createOscillator(); const gain = v_audioCtx.createGain();
+            osc.connect(gain); gain.connect(v_audioCtx.destination);
+            if (type === 'stretch') {
+                osc.type = 'sine'; let mag = Math.hypot(v_vx, v_vy); osc.frequency.setValueAtTime(120 + mag * 5, now);
+                gain.gain.setValueAtTime(0.05, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+                osc.start(now); osc.stop(now + 0.1);
+            } else if (type === 'shoot') {
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(400, now); osc.frequency.exponentialRampToValueAtTime(80, now + 0.25);
+                gain.gain.setValueAtTime(0.3, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                osc.start(now); osc.stop(now + 0.25);
+            } else if (type === 'hit') {
+                [523.25, 659.25, 783.99].forEach((freq, idx) => {
+                    const o = v_audioCtx.createOscillator(); const g = v_audioCtx.createGain();
+                    o.connect(g); g.connect(v_audioCtx.destination);
+                    o.frequency.setValueAtTime(freq, now + idx * 0.08); g.gain.setValueAtTime(0.2, now + idx * 0.08);
+                    g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.4);
+                    o.start(now + idx * 0.08); o.stop(now + idx * 0.08 + 0.4);
+                });
+            } else if (type === 'wall') {
+                osc.type = 'square'; osc.frequency.setValueAtTime(100, now); osc.frequency.exponentialRampToValueAtTime(30, now + 0.2);
+                gain.gain.setValueAtTime(0.3, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                osc.start(now); osc.stop(now + 0.2);
+            }
+        }
+
+        function v_toggleSound() {
+            v_soundEnabled = !v_soundEnabled;
+            const btn = document.getElementById('sound-icon');
+            btn.className = v_soundEnabled ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark text-red-400';
+        }
+
+        function v_resizeCanvas() {
+            const container = vCanvas.parentElement;
+            vCanvas.width = container.clientWidth; vCanvas.height = container.clientHeight;
+            vOrigin.x = 70; vOrigin.y = vCanvas.height - 60; vScale = vCanvas.width / 100;
+            v_draw();
+        }
+
+        window.addEventListener('resize', () => { if (document.getElementById('vektor').classList.contains('active')) v_resizeCanvas(); });
+
+        function v_getCanvasCoords(e) {
+            const rect = vCanvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX; const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        }
+
+        function v_onPointerDown(e) {
+            if (v_isFlying) return;
+            v_initAudio(); const pt = v_getCanvasCoords(e);
+            const dist = Math.hypot(pt.x - vOrigin.x, pt.y - vOrigin.y);
+            if (dist < 60) { vIsDragging = true; vDragPos = pt; }
+        }
+
+        function v_onPointerMove(e) {
+            if (!vIsDragging || v_isFlying) return;
+            const pt = v_getCanvasCoords(e); vDragPos = pt;
+            let dx = (vOrigin.x - vDragPos.x) / (vScale * 0.8); let dy = (vDragPos.y - vOrigin.y) / (vScale * 0.8);
+            v_vx = Math.max(1, Math.min(55, dx)); v_vy = Math.max(1, Math.min(55, dy));
+            v_playSound('stretch'); v_syncUIFromState(); v_draw();
+        }
+
+        function v_onPointerUp() { if (vIsDragging) { vIsDragging = false; v_draw(); } }
+
+        vCanvas.addEventListener('mousedown', v_onPointerDown); vCanvas.addEventListener('mousemove', v_onPointerMove);
+        window.addEventListener('mouseup', v_onPointerUp);
+        vCanvas.addEventListener('touchstart', v_onPointerDown, { passive: true });
+        vCanvas.addEventListener('touchmove', v_onPointerMove, { passive: true }); window.addEventListener('touchend', v_onPointerUp);
+
+        function v_updateFromSliders() {
+            if (v_isFlying) return;
+            const mag = parseFloat(document.getElementById('slider-mag').value); const deg = parseFloat(document.getElementById('slider-angle').value);
+            const rad = deg * Math.PI / 180; v_vx = mag * Math.cos(rad); v_vy = mag * Math.sin(rad);
+            v_syncUIFromState(); v_draw();
+        }
+
+        function v_updateFromComponents() {
+            if (v_isFlying) return;
+            v_vx = parseFloat(document.getElementById('slider-vx').value); v_vy = parseFloat(document.getElementById('slider-vy').value);
+            v_syncUIFromState(); v_draw();
+        }
+
+        function v_setScalar(k) {
+            v_scalarK = k;
+            [1, 1.5, 2].forEach(val => {
+                const btn = document.getElementById(`btn-k-${val}`);
+                if (val === k) { btn.className = 'px-2.5 py-1 rounded font-bold text-white bg-indigo-600 shadow border-none'; }
+                else { btn.className = 'px-2.5 py-1 rounded font-semibold text-slate-400 hover:text-white border-none bg-transparent'; }
+            });
+            v_syncUIFromState(); v_draw();
+        }
+
+        function v_updateSandbox() {
+            if (v_levels[v_currentLevelIdx].sandbox) {
+                v_wind.x = parseFloat(document.getElementById('slider-wx').value); v_gravity = parseFloat(document.getElementById('slider-g').value);
+                v_syncUIFromState(); v_draw();
+            }
+        }
+
+        function v_syncUIFromState() {
+            const mag = Math.hypot(v_vx, v_vy); const angleDeg = Math.atan2(v_vy, v_vx) * 180 / Math.PI;
+            document.getElementById('slider-mag').value = mag.toFixed(1); document.getElementById('slider-angle').value = angleDeg.toFixed(1);
+            document.getElementById('slider-vx').value = v_vx.toFixed(1); document.getElementById('slider-vy').value = v_vy.toFixed(1);
+            document.getElementById('val-mag').innerText = `${mag.toFixed(1)} m/s`; document.getElementById('val-angle').innerText = `${angleDeg.toFixed(1)}°`;
+            document.getElementById('val-vx').innerText = `${v_vx.toFixed(1)} m/s`; document.getElementById('val-vy').innerText = `${v_vy.toFixed(1)} m/s`;
+            document.getElementById('math-vx').innerText = v_vx.toFixed(1); document.getElementById('math-vy').innerText = v_vy.toFixed(1);
+            document.getElementById('math-mag').innerText = mag.toFixed(1); document.getElementById('math-theta').innerText = angleDeg.toFixed(1);
+            document.getElementById('math-scalar-val').innerText = v_scalarK.toFixed(1);
+            document.getElementById('math-sk-vx').innerText = v_vx.toFixed(1); document.getElementById('math-sk-vy').innerText = v_vy.toFixed(1);
+            
+            const skVx = v_vx * v_scalarK; const skVy = v_vy * v_scalarK;
+            document.getElementById('math-res-skx').innerText = skVx.toFixed(1); document.getElementById('math-res-sky').innerText = skVy.toFixed(1);
+            const totVx = skVx + v_wind.x; const totVy = skVy + v_wind.y; const totMag = Math.hypot(totVx, totVy);
+            document.getElementById('math-tot-x').innerText = totVx.toFixed(1); document.getElementById('math-tot-y').innerText = totVy.toFixed(1);
+            document.getElementById('math-tot-mag').innerText = totMag.toFixed(1);
+        }
+
+        function v_setLevel(lvlId) {
+            v_currentLevelIdx = lvlId - 1; const lvl = v_levels[v_currentLevelIdx];
+            for (let i = 1; i <= 4; i++) {
+                const btn = document.getElementById(`btn-lvl-${i}`);
+                if (i === lvlId) { btn.className = 'px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-white bg-indigo-600 shadow border-none'; }
+                else { btn.className = 'px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-slate-400 hover:text-white hover:bg-slate-700 border-none bg-transparent'; }
+            }
+            document.getElementById('level-title-display').innerHTML = `<i class="fa-solid fa-bullseye"></i> ${lvl.title}`;
+            document.getElementById('level-description').innerText = lvl.desc;
+            document.getElementById('level-hint').innerText = `Petunjuk: ${lvl.hint}`;
+            const sbBox = document.getElementById('sandbox-controls');
+            if (lvl.sandbox) { sbBox.classList.remove('hidden'); } else { sbBox.classList.add('hidden'); }
+            v_wind = { ...lvl.wind }; v_gravity = 9.8; v_resetSimulation();
+        }
+
+        function v_nextLevel() {
+            document.getElementById('hit-modal').classList.add('hidden');
+            if (v_currentLevelIdx < v_levels.length - 1) { v_setLevel(v_currentLevelIdx + 2); } else { v_setLevel(1); }
+        }
+
+        function v_resetSimulation() {
+            v_isFlying = false; v_hitTarget = false; v_hitWall = false; v_flightPath = []; v_particles = [];
+            v_proj = { x: 0, y: 0, vx: 0, vy: 0 };
+            document.getElementById('hit-modal').classList.add('hidden');
+            v_syncUIFromState(); v_draw();
+        }
+
+        function v_fireProjectile() {
+            if (v_isFlying) return;
+            v_initAudio(); v_playSound('shoot');
+            v_isFlying = true; v_hitTarget = false; v_hitWall = false; v_flightPath = [];
+            v_proj.x = 0; v_proj.y = 0; v_proj.vx = (v_vx * v_scalarK) + v_wind.x; v_proj.vy = (v_vy * v_scalarK) + v_wind.y;
+            v_animateSimulation();
+        }
+
+        function v_animateSimulation() {
+            if (!v_isFlying) return;
+            const dt = 0.04; 
+            v_proj.x += v_proj.vx * dt; v_proj.vy -= v_gravity * dt; v_proj.y += v_proj.vy * dt;
+            const screenPt = v_worldToScreen(v_proj.x, v_proj.y); v_flightPath.push(screenPt);
+            const lvl = v_levels[v_currentLevelIdx];
+            
+            if (v_proj.y <= 0) { v_proj.y = 0; v_endFlight(false); return; }
+            if (lvl.obstacle) {
+                const obs = lvl.obstacle;
+                if (v_proj.x >= obs.x && v_proj.x <= (obs.x + obs.width) && v_proj.y <= obs.height) {
+                    v_hitWall = true; v_createImpactParticles(screenPt.x, screenPt.y, '#f59e0b'); v_playSound('wall'); v_endFlight(false); return;
+                }
+            }
+            const tgt = lvl.target; const distToTarget = Math.hypot(v_proj.x - tgt.x, v_proj.y - tgt.y);
+            if (distToTarget <= tgt.radius) {
+                v_hitTarget = true; v_createImpactParticles(screenPt.x, screenPt.y, '#10b981'); v_playSound('hit'); v_endFlight(true); return;
+            }
+            v_draw(); requestAnimationFrame(v_animateSimulation);
+        }
+
+        function v_endFlight(success) {
+            v_isFlying = false; v_draw();
+            if (success) {
+                setTimeout(() => {
+                    document.getElementById('hit-modal').classList.remove('hidden');
+                    document.getElementById('hit-details').innerText = `Luar biasa! Vektor resultan (${((v_vx*v_scalarK)+v_wind.x).toFixed(1)}, ${((v_vy*v_scalarK)+v_wind.y).toFixed(1)}) membawa peluru tepat ke pusat sasaran.`;
+                }, 400);
+            }
+        }
+
+        function v_createImpactParticles(cx, cy, color) {
+            for (let i = 0; i < 25; i++) {
+                const angle = Math.random() * Math.PI * 2; const speed = Math.random() * 6 + 2;
+                v_particles.push({ x: cx, y: cy, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, color: color, alpha: 1.0, size: Math.random() * 4 + 2 });
+            }
+        }
+
+        function v_worldToScreen(wx, wy) { return { x: vOrigin.x + (wx * vScale), y: vOrigin.y - (wy * vScale) }; }
+
+        function v_drawArrow(fromx, fromy, tox, toy, color, label, dashed = false, lineWidth = 3) {
+            const headlen = 10; const dx = tox - fromx; const dy = toy - fromy; const angle = Math.atan2(dy, dx);
+            vCtx.save(); vCtx.strokeStyle = color; vCtx.fillStyle = color; vCtx.lineWidth = lineWidth;
+            if (dashed) { vCtx.setLineDash([5, 5]); } else { vCtx.setLineDash([]); }
+            vCtx.beginPath(); vCtx.moveTo(fromx, fromy); vCtx.lineTo(tox, toy); vCtx.stroke();
+            vCtx.setLineDash([]); vCtx.beginPath();
+            vCtx.moveTo(tox, toy);
+            vCtx.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+            vCtx.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+            vCtx.closePath(); vCtx.fill();
+            if (label) { vCtx.font = 'bold 12px Inter, sans-serif'; vCtx.fillText(label, tox + Math.cos(angle) * 12, toy + Math.sin(angle) * 12); }
+            vCtx.restore();
+        }
+
+        function v_draw() {
+            vCtx.clearRect(0, 0, vCanvas.width, vCanvas.height);
+            const lvl = v_levels[v_currentLevelIdx];
+            vCtx.strokeStyle = '#1e293b'; vCtx.lineWidth = 1;
+
+            for (let wx = 0; wx <= 100; wx += 10) {
+                const sx = vOrigin.x + wx * vScale;
+                vCtx.beginPath(); vCtx.moveTo(sx, 0); vCtx.lineTo(sx, vCanvas.height); vCtx.stroke();
+                vCtx.fillStyle = '#64748b'; vCtx.font = '10px monospace'; vCtx.fillText(`${wx}m`, sx - 8, vOrigin.y + 16);
+            }
+            for (let wy = 0; wy <= 60; wy += 10) {
+                const sy = vOrigin.y - wy * vScale;
+                vCtx.beginPath(); vCtx.moveTo(0, sy); vCtx.lineTo(vCanvas.width, sy); vCtx.stroke();
+                if (wy > 0) { vCtx.fillStyle = '#64748b'; vCtx.font = '10px monospace'; vCtx.fillText(`${wy}m`, vOrigin.x - 28, sy + 4); }
+            }
+
+            vCtx.strokeStyle = '#475569'; vCtx.lineWidth = 2;
+            vCtx.beginPath(); vCtx.moveTo(0, vOrigin.y); vCtx.lineTo(vCanvas.width, vOrigin.y); vCtx.stroke();
+            vCtx.beginPath(); vCtx.moveTo(vOrigin.x, 0); vCtx.lineTo(vOrigin.x, vCanvas.height); vCtx.stroke();
+            vCtx.fillStyle = '#0f172a'; vCtx.fillRect(0, vOrigin.y, vCanvas.width, vCanvas.height - vOrigin.y);
+
+            if (lvl.obstacle) {
+                const obs = lvl.obstacle; const pos = v_worldToScreen(obs.x, obs.height);
+                const w = obs.width * vScale; const h = obs.height * vScale;
+                vCtx.fillStyle = '#b45309'; vCtx.fillRect(pos.x, pos.y, w, h);
+                vCtx.strokeStyle = '#f59e0b'; vCtx.lineWidth = 2; vCtx.strokeRect(pos.x, pos.y, w, h);
+                vCtx.fillStyle = '#fef3c7'; vCtx.font = 'bold 11px Inter'; vCtx.fillText('Rintangan', pos.x + 4, pos.y - 6);
+            }
+
+            const tgt = lvl.target; const tgtPos = v_worldToScreen(tgt.x, tgt.y); const tgtR = tgt.radius * vScale;
+            const colors = ['#ef4444', '#ffffff', '#ef4444', '#ffffff', '#eab308'];
+            for (let i = 0; i < 5; i++) { vCtx.beginPath(); vCtx.arc(tgtPos.x, tgtPos.y, tgtR * (1 - i * 0.2), 0, Math.PI * 2); vCtx.fillStyle = colors[i]; vCtx.fill(); }
+            vCtx.strokeStyle = '#64748b'; vCtx.lineWidth = 4;
+            vCtx.beginPath(); vCtx.moveTo(tgtPos.x, tgtPos.y + tgtR); vCtx.lineTo(tgtPos.x, vOrigin.y); vCtx.stroke();
+
+            if (!v_isFlying) {
+                vCtx.save(); vCtx.beginPath(); vCtx.setLineDash([4, 4]); vCtx.strokeStyle = 'rgba(168, 85, 247, 0.6)'; vCtx.lineWidth = 2;
+                let simX = 0; let simY = 0; let simVx = (v_vx * v_scalarK) + v_wind.x; let simVy = (v_vy * v_scalarK) + v_wind.y; let dt = 0.05;
+                const startPos = v_worldToScreen(0, 0); vCtx.moveTo(startPos.x, startPos.y);
+                for (let t = 0; t < 100; t++) {
+                    simX += simVx * dt; simVy -= v_gravity * dt; simY += simVy * dt;
+                    if (simY < 0) break;
+                    const p = v_worldToScreen(simX, simY); vCtx.lineTo(p.x, p.y);
+                    if (lvl.obstacle) {
+                        const obs = lvl.obstacle;
+                        if (simX >= obs.x && simX <= (obs.x + obs.width) && simY <= obs.height) break;
+                    }
+                }
+                vCtx.stroke(); vCtx.restore();
+            }
+
+            if (v_flightPath.length > 1) {
+                vCtx.beginPath(); vCtx.strokeStyle = '#38bdf8'; vCtx.lineWidth = 3;
+                vCtx.moveTo(v_flightPath[0].x, v_flightPath[0].y);
+                for (let i = 1; i < v_flightPath.length; i++) { vCtx.lineTo(v_flightPath[i].x, v_flightPath[i].y); }
+                vCtx.stroke();
+            }
+
+            if (!v_isFlying) {
+                const skVx = v_vx * v_scalarK; const skVy = v_vy * v_scalarK;
+                const endVx = v_worldToScreen(skVx, 0); const endVy = v_worldToScreen(0, skVy); const endV = v_worldToScreen(skVx, skVy);
+                v_drawArrow(vOrigin.x, vOrigin.y, endVx.x, vOrigin.y, '#ef4444', 'vx', false, 2);
+                v_drawArrow(vOrigin.x, vOrigin.y, vOrigin.x, endVy.y, '#10b981', 'vy', false, 2);
+                vCtx.save(); vCtx.setLineDash([3, 3]); vCtx.strokeStyle = '#94a3b8';
+                vCtx.beginPath(); vCtx.moveTo(endVx.x, vOrigin.y); vCtx.lineTo(endV.x, endV.y); vCtx.lineTo(vOrigin.x, endVy.y); vCtx.stroke(); vCtx.restore();
+                v_drawArrow(vOrigin.x, vOrigin.y, endV.x, endV.y, '#3b82f6', 'k·v', false, 3.5);
+                if (v_wind.x !== 0 || v_wind.y !== 0) {
+                    const endWind = v_worldToScreen(skVx + v_wind.x, skVy + v_wind.y);
+                    v_drawArrow(endV.x, endV.y, endWind.x, endWind.y, '#06b6d4', 'w', true, 2.5);
+                    v_drawArrow(vOrigin.x, vOrigin.y, endWind.x, endWind.y, '#a855f7', 'v_tot', false, 4);
+                }
+            }
+
+            vCtx.strokeStyle = '#78350f'; vCtx.lineWidth = 6;
+            vCtx.beginPath(); vCtx.moveTo(vOrigin.x, vOrigin.y); vCtx.lineTo(vOrigin.x, vOrigin.y + 25); vCtx.stroke();
+            if (vIsDragging) {
+                vCtx.strokeStyle = '#f59e0b'; vCtx.lineWidth = 3;
+                vCtx.beginPath(); vCtx.moveTo(vOrigin.x - 8, vOrigin.y - 5); vCtx.lineTo(vDragPos.x, vDragPos.y); vCtx.lineTo(vOrigin.x + 8, vOrigin.y - 5); vCtx.stroke();
+            }
+
+            let projPos = v_isFlying ? v_worldToScreen(v_proj.x, v_proj.y) : (vIsDragging ? vDragPos : vOrigin);
+            vCtx.beginPath(); vCtx.arc(projPos.x, projPos.y, 10, 0, Math.PI * 2); vCtx.fillStyle = '#e11d48'; vCtx.fill();
+            vCtx.strokeStyle = '#ffffff'; vCtx.lineWidth = 2; vCtx.stroke();
+            vCtx.fillStyle = '#ffffff'; vCtx.beginPath(); vCtx.arc(projPos.x + 3, projPos.y - 3, 3, 0, Math.PI * 2); vCtx.fill();
+            vCtx.fillStyle = '#000000'; vCtx.beginPath(); vCtx.arc(projPos.x + 4, projPos.y - 3, 1.5, 0, Math.PI * 2); vCtx.fill();
+
+            for (let i = v_particles.length - 1; i >= 0; i--) {
+                let p = v_particles[i]; p.x += p.vx; p.y += p.vy; p.alpha -= 0.025;
+                if (p.alpha <= 0) { v_particles.splice(i, 1); continue; }
+                vCtx.save(); vCtx.globalAlpha = p.alpha; vCtx.fillStyle = p.color;
+                vCtx.beginPath(); vCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2); vCtx.fill(); vCtx.restore();
+            }
+        }
+
+        // Initialize Vektor silently
+        v_setLevel(1);
     </script>
 </body>
 </html>
