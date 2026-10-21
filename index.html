@@ -822,38 +822,37 @@
                             <!-- Formulas Stack -->
                             <div class="space-y-2.5 text-xs">
                                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
-                                    <div class="text-slate-400 font-medium mb-1">1. Komponen Vektor Dorongan (&vec;v):</div>
+                                    <div class="text-slate-400 font-medium mb-1">1. Komponen Vektor Dorongan (v&#8407;):</div>
                                     <div class="font-mono text-slate-200 text-sm space-y-0.5">
-                                        <div>v<sub>x</sub> = |v| &middot; cos(&theta;) = <span id="math-vx" class="text-red-400 font-bold">24.7</span> m/s</div>
-                                        <div>v<sub>y</sub> = |v| &middot; sin(&theta;) = <span id="math-vy" class="text-emerald-400 font-bold">24.7</span> m/s</div>
+                                        <div>v<sub>x</sub> = |v&#8407;| &middot; cos(&theta;) = <span id="math-vx" class="text-red-400 font-bold">24.7</span> m/s</div>
+                                        <div>v<sub>y</sub> = |v&#8407;| &middot; sin(&theta;) = <span id="math-vy" class="text-emerald-400 font-bold">24.7</span> m/s</div>
                                     </div>
                                 </div>
 
-                                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
-                                    <div class="text-slate-400 font-medium mb-1">2. Besaran & Sudut Vektor Awal:</div>
-                                    <div class="font-mono text-slate-200 text-sm space-y-0.5">
-                                        <div>|&vec;v| = &radic;(v<sub>x</sub>&sup2; + v<sub>y</sub>&sup2;) = <span id="math-mag" class="text-blue-400 font-bold">35.0</span> m/s</div>
-                                        <div>&theta; = arctan(v<sub>y</sub> / v<sub>x</sub>) = <span id="math-theta" class="text-amber-400 font-bold">45.0</span>&deg;</div>
-                                    </div>
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
+                                <div class="text-slate-400 font-medium mb-1">2. Besaran & Sudut Vektor Awal:</div>
+                                <div class="font-mono text-slate-200 text-sm space-y-0.5">
+                                    <div>|v&#8407;| = &radic;(v<sub>x</sub>&sup2; + v<sub>y</sub>&sup2;) = <span id="math-mag" class="text-blue-400 font-bold">35.0</span> m/s</div>
+                                    <div>&theta; = arctan(v<sub>y</sub> / v<sub>x</sub>) = <span id="math-theta" class="text-amber-400 font-bold">45.0</span>&deg;</div>
                                 </div>
+                            </div>
 
-                                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
-                                    <div class="text-slate-400 font-medium mb-1">3. Efek Perkalian Skalar (k &middot; &vec;v):</div>
-                                    <div class="font-mono text-slate-200 text-sm">
-                                        k &middot; &vec;v = <span id="math-scalar-val" class="text-indigo-400 font-bold">1.0</span> &middot; (<span id="math-sk-vx" class="text-red-400">24.7</span>, <span id="math-sk-vy" class="text-emerald-400">24.7</span>) = (<span id="math-res-skx" class="text-slate-100 font-bold">24.7</span>, <span id="math-res-sky" class="text-slate-100 font-bold">24.7</span>)
-                                    </div>
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
+                                <div class="text-slate-400 font-medium mb-1">3. Efek Perkalian Skalar (k &middot; v&#8407;):</div>
+                                <div class="font-mono text-slate-200 text-sm">
+                                    k &middot; v&#8407; = <span id="math-scalar-val" class="text-indigo-400 font-bold">1.0</span> &middot; (<span id="math-sk-vx" class="text-red-400">24.7</span>, <span id="math-sk-vy" class="text-emerald-400">24.7</span>) = (<span id="math-res-skx" class="text-slate-100 font-bold">24.7</span>, <span id="math-res-sky" class="text-slate-100 font-bold">24.7</span>)
                                 </div>
-
-                                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
-                                    <div class="text-slate-400 font-medium mb-1">4. Penjumlahan Vektor (Total + Angin):</div>
-                                    <div class="font-mono text-slate-200 text-sm space-y-1">
-                                        <div class="text-xs text-slate-400">&vec;v<sub>total</sub> = k&middot;&vec;v + &vec;w</div>
-                                        <div class="text-purple-400 font-bold">
-                                            &vec;v<sub>tot</sub> = (<span id="math-tot-x">24.7</span>, <span id="math-tot-y">24.7</span>) m/s
-                                        </div>
-                                        <div class="text-xs text-slate-300">
-                                            Besaran |&vec;v<sub>tot</sub>| = <span id="math-tot-mag" class="font-bold text-purple-300">34.9</span> m/s
-                                        </div>
+                            </div>
+                        
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
+                                <div class="text-slate-400 font-medium mb-1">4. Penjumlahan Vektor (Total + Angin):</div>
+                                <div class="font-mono text-slate-200 text-sm space-y-1">
+                                    <div class="text-xs text-slate-400">v&#8407;<sub>total</sub> = k&middot;v&#8407; + w&#8407;</div>
+                                    <div class="text-purple-400 font-bold">
+                                        v&#8407;<sub>tot</sub> = (<span id="math-tot-x">24.7</span>, <span id="math-tot-y">24.7</span>) m/s
+                                    </div>
+                                    <div class="text-xs text-slate-300">
+                                        Besaran |v&#8407;<sub>tot</sub>| = <span id="math-tot-mag" class="font-bold text-purple-300">34.9</span> m/s
                                     </div>
                                 </div>
                             </div>
